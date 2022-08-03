@@ -12,9 +12,12 @@ public class DialogSystem : MonoBehaviour
     [SerializeField] GameObject DialogChoicePrefab;
     [SerializeField] VerticalLayoutGroup LayoutGroup;
     [SerializeField] ScrollRect ScrollRect;
+    [SerializeField] RectTransform Rect;
+    [SerializeField] float UnrollDuration;
 
     private List<DialogChoice> _currentChoices;
     private ItemParagraph _lastParagraph;
+    private float _targetSize;
 
     public event ChoiceSelectedDelegate ChoiceSelected;
     public event ParagraphDisplayFinishedDelegate ParagraphDisplayFinished;
@@ -24,6 +27,12 @@ public class DialogSystem : MonoBehaviour
         _currentChoices = new List<DialogChoice>();
     }
 
+    private void Start()
+    {
+        _targetSize = Rect.sizeDelta.y;
+        Rect.sizeDelta = new Vector2(Rect.sizeDelta.x, 50f);
+        StartCoroutine(Unroll());
+    }
     void OnChoiceSelected(int id, string choiceText)
     {
         if(ChoiceSelected != null)
@@ -101,5 +110,19 @@ public class DialogSystem : MonoBehaviour
     {
         if(_lastParagraph != null)
             _lastParagraph.EndDisplay = true;
+    }
+
+    IEnumerator Unroll()
+    {
+        float currentTime = 0;
+        float start = Rect.sizeDelta.y;
+
+        while (currentTime < UnrollDuration)
+        {
+            currentTime += Time.deltaTime;
+            float height = Mathf.Lerp(start, _targetSize, currentTime / UnrollDuration);
+            Rect.sizeDelta = new Vector2(Rect.sizeDelta.x, height);
+            yield return null;
+        }
     }
 }
