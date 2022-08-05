@@ -19,20 +19,21 @@ public class ItemParagraph : MonoBehaviour
 
     IEnumerator DisplayText()
     {
-        for (int i = 0; i < TextToDisplay.Length; i++)
-        {
-            ParagraphText.text += TextToDisplay[i];
-            ParentSystem.ReportCharacaterDisplayed();
-            yield return new WaitForSeconds(CharDisplayInterval);
-
-            if(EndDisplay)
+        if(TextToDisplay != null)
+            for (int i = 0; i < TextToDisplay.Length; i++)
             {
-                ParagraphText.text = TextToDisplay;
-                break;
-            }
-        }
+                ParagraphText.text += TextToDisplay[i];
+                //ParentSystem.ReportCharacaterDisplayed();
+                yield return new WaitForSeconds(CharDisplayInterval);
 
-        ParentSystem.ReportParagraphDisplayFinished();
+                if(EndDisplay)
+                {
+                    ParagraphText.text = TextToDisplay;
+                    break;
+                }
+            }
+
+        //ParentSystem.ReportParagraphDisplayFinished();
         yield return null;
     }
 }
