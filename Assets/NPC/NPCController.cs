@@ -5,6 +5,7 @@ using Cinemachine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
+// ESTA CLASE SOLO ES PARA EL PROTOTIPO. Repensarla para el vertical sliced ó release
 public class NPCController : MonoBehaviour, IPointerClickHandler
 {   
     [SerializeField] CinemachineVirtualCamera VirtualCamera;
@@ -20,15 +21,26 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
     [SerializeField] float MoveCameraXOffset;
     [SerializeField] bool MoveToLeft;
     [SerializeField] float MoveDuration;
+    [SerializeField] StoryManager StoryManager;
 
     bool zoomIn;
     bool zooming;
     bool zoomFinished;
     bool moveFinished;
 
+    private void Awake()
+    {
+        Scroll.Unscrolled += ScrollDialog_Unscrolled;
+    }
+
     private void Start()
     {
         zoomFinished = moveFinished = true;
+    }
+
+    private void OnDestroy()
+    {
+        Scroll.Unscrolled -= ScrollDialog_Unscrolled;
     }
 
     private void Update()
@@ -56,8 +68,6 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
     void CreateDialogSystem()
     {
         Scroll.Show();
-        ScrollDialog scrollDialog = Scroll.GetComponent<ScrollDialog>();
-        scrollDialog.AddDialogLine("Hola MONDO");
     }
 
     IEnumerator Zoom(bool zoomIn)
@@ -112,5 +122,11 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
             if(zoomIn)
                 CreateDialogSystem();
         }
+    }
+
+    void ScrollDialog_Unscrolled()
+    {
+        StoryManager.LoadStoryChunk();
+        StoryManager.LoadChoices();
     }
 }
