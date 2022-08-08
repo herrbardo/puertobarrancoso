@@ -22,6 +22,7 @@ public class ScrollDialog : MonoBehaviour
     [SerializeField] GameObject DialogChoicePrefab;
     [SerializeField] GameObject ScrollBar;
     [SerializeField] GameObject ScrollArea;
+    [SerializeField] float MaxHeightScrollArea;
 
     private ItemParagraph _lastParagraph;
     private List<DialogChoice> _currentChoices;
@@ -65,11 +66,13 @@ public class ScrollDialog : MonoBehaviour
     public void Unroll()
     {
         StartCoroutine(Scroll(false, null));
+        StartCoroutine(StretchScrollArea(false));
     }
 
     public void Roll()
     {
         StartCoroutine(Scroll(true, Hide));
+        StartCoroutine(StretchScrollArea(true));
     }
 
     IEnumerator Scroll(bool up, Action callback)
@@ -94,6 +97,25 @@ public class ScrollDialog : MonoBehaviour
         
         if(callback != null)
             callback();
+
+        yield return null;
+    }
+
+    IEnumerator StretchScrollArea(bool up)
+    {
+        RectTransform rect = ScrollArea.GetComponent<RectTransform>();
+        float currentTime = 0f;
+        float minHeight = 0f;
+        float start = rect.sizeDelta.y;
+        float targetHeight = (up) ? minHeight : MaxHeightScrollArea;
+
+        while (currentTime < RollDuration)
+        {
+            currentTime += Time.deltaTime;
+            float height = Mathf.Lerp(start, targetHeight, currentTime / RollDuration);
+            rect.sizeDelta = new Vector2(rect.sizeDelta.x, height);
+            yield return null;
+        }
 
         yield return null;
     }

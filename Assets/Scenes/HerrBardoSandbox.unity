@@ -867,7 +867,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -31}
-  m_SizeDelta: {x: 223.59, y: 201.85}
+  m_SizeDelta: {x: 223.59, y: 201}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1218169046
 MonoBehaviour:
@@ -1279,7 +1279,8 @@ MonoBehaviour:
   ScrollRect: {fileID: 1218169046}
   DialogChoicePrefab: {fileID: 4641890070778982703, guid: 3ede92195327e1d4a9e6e448a5a7d2cc, type: 3}
   ScrollBar: {fileID: 2088383703}
-  ScrollArea: {fileID: 0}
+  ScrollArea: {fileID: 1218169044}
+  MaxHeightScrollArea: 201
 --- !u!1 &2088383703
 GameObject:
   m_ObjectHideFlags: 0
