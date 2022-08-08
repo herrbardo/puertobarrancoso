@@ -20,6 +20,7 @@ public class ScrollDialog : MonoBehaviour
     [SerializeField] VerticalLayoutGroup LayoutGroup;
     [SerializeField] ScrollRect ScrollRect;
     [SerializeField] GameObject DialogChoicePrefab;
+    [SerializeField] GameObject ScrollBar;
 
     private ItemParagraph _lastParagraph;
     private List<DialogChoice> _currentChoices;
@@ -84,8 +85,15 @@ public class ScrollDialog : MonoBehaviour
             yield return null;
         }
 
-        if(!up)
+        if(up)
+        {
+            this.ScrollBar.SetActive(false);
+        }
+        else
+        {
+            SwitchScrollDisplay(true);
             OnUnscrolled();
+        }
         
         if(callback != null)
             callback();
@@ -114,6 +122,7 @@ public class ScrollDialog : MonoBehaviour
     void Hide()
     {
         this.gameObject.SetActive(false);
+        SwitchScrollDisplay(false);
     }
 
     public void Show()
@@ -126,7 +135,7 @@ public class ScrollDialog : MonoBehaviour
     {
         Canvas.ForceUpdateCanvases();
         if(hard)
-            ScrollRect.verticalNormalizedPosition = -5;
+            ScrollRect.verticalNormalizedPosition = -1;
         else
             ScrollRect.verticalNormalizedPosition = 0;
     }
@@ -164,5 +173,15 @@ public class ScrollDialog : MonoBehaviour
     public void ReportCharacaterDisplayed()
     {
         ScrollToBottom(false);
+    }
+
+    void SwitchScrollDisplay(bool displayOn)
+    {
+        float alpha = (displayOn) ? 255f : 0f;
+        Image scrollContainer = this.ScrollBar.GetComponent<Image>();
+        Image handleImage = this.ScrollBar.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+
+        scrollContainer.color = new Color(scrollContainer.color.r, scrollContainer.color.g, scrollContainer.color.b, alpha);
+        handleImage.color = new Color(handleImage.color.r, handleImage.color.g, handleImage.color.b, alpha);
     }
 }
