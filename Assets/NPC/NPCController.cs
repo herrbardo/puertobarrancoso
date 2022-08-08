@@ -55,7 +55,7 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
 
     void ZoomIn()
     {
-        if(!zoomFinished || !moveFinished)
+        if(!zoomFinished || !moveFinished || zoomIn)
             return;
         zoomFinished = false;
         moveFinished = false;
@@ -127,6 +127,5 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
     void ScrollDialog_Unscrolled()
     {
         StoryManager.LoadStoryChunk();
-        StoryManager.LoadChoices();
     }
 }

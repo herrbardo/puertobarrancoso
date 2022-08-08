@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScrollSprite: {fileID: 572678260}
-  RollDuration: 1
+  RollDuration: 0.5
   MaxHeightToUnroll: 3.3
   MinHeightToRoll: 0.75
   ItemParagraphPrefab: {fileID: 1036090606468670671, guid: 8e788351d5cc4a443bd5681e5545ac16, type: 3}

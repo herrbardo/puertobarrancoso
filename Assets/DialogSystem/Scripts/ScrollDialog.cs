@@ -7,6 +7,7 @@ using TMPro;
 
 public delegate void UnscrolledDelegate();
 public delegate void ChoiceSelectedDelegate(int id, string choiceText);
+public delegate void ParagraphDisplayFinishedDelegate();
 
 public class ScrollDialog : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class ScrollDialog : MonoBehaviour
 
     public event UnscrolledDelegate Unscrolled;
     public event ChoiceSelectedDelegate ChoiceSelected;
+    public event ParagraphDisplayFinishedDelegate ParagraphDisplayFinished;
 
     void OnUnscrolled()
     {
@@ -43,6 +45,12 @@ public class ScrollDialog : MonoBehaviour
     {
         if(ChoiceSelected != null)
             ChoiceSelected(id, choiceText);
+    }
+
+    void OnParagraphDisplayFinished()
+    {
+        if(ParagraphDisplayFinished != null)
+            ParagraphDisplayFinished();
     }
 
     #endregion
@@ -76,7 +84,7 @@ public class ScrollDialog : MonoBehaviour
             yield return null;
         }
 
-        if(up)
+        if(!up)
             OnUnscrolled();
         
         if(callback != null)
@@ -88,8 +96,9 @@ public class ScrollDialog : MonoBehaviour
     public void AddDialogLine(string dialogText)
     {
         GameObject itemText = Instantiate(ItemTextPrefab);
-        TMP_Text testMesh = itemText.GetComponent<TMP_Text>();
-        testMesh.text =  "-" + dialogText;
+        ItemParagraph paragraph = itemText.GetComponent<ItemParagraph>();
+        paragraph.TextToDisplay = "-" + dialogText;
+        paragraph.ParentSystem = this;
         SetupItem(itemText);
     }
 
@@ -115,8 +124,9 @@ public class ScrollDialog : MonoBehaviour
 
     void ScrollToBottom(bool hard)
     {
+        Canvas.ForceUpdateCanvases();
         if(hard)
-            ScrollRect.verticalNormalizedPosition = -1;
+            ScrollRect.verticalNormalizedPosition = -5;
         else
             ScrollRect.verticalNormalizedPosition = 0;
     }
@@ -129,6 +139,7 @@ public class ScrollDialog : MonoBehaviour
         dialogChoice.ParentSystem = this;
         dialogChoice.SetValues(id, string.Format("- {0}", choiceText));
         _currentChoices.Add(dialogChoice);
+        ScrollToBottom(true);
     }
 
     public void ReportChoiceSelected(int choiceIndex, string choiceText)
@@ -143,5 +154,15 @@ public class ScrollDialog : MonoBehaviour
         _currentChoices = new List<DialogChoice>();
 
         OnChoiceSelected(choiceIndex, choiceText);
+    }
+
+    public void ReportParagraphDisplayFinished()
+    {
+        OnParagraphDisplayFinished();
+    }
+
+    public void ReportCharacaterDisplayed()
+    {
+        ScrollToBottom(false);
     }
 }

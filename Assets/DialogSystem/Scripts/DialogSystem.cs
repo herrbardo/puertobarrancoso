@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 
 //public delegate void ChoiceSelectedDelegate(int id, string choiceText);
-public delegate void ParagraphDisplayFinishedDelegate();
+//public delegate void ParagraphDisplayFinishedDelegate();
 public class DialogSystem : MonoBehaviour
 {
     [SerializeField] GameObject ItemParagraphPrefab;
@@ -51,7 +51,7 @@ public class DialogSystem : MonoBehaviour
         SetupItem(paragraph);
         ItemParagraph itemParagraph = paragraph.GetComponent<ItemParagraph>();
         itemParagraph.TextToDisplay = string.Format("- {0}", dialogText);
-        itemParagraph.ParentSystem = this;
+        //itemParagraph.ParentSystem = this;
         _lastParagraph = itemParagraph;
     }
 

@@ -10,20 +10,21 @@ public class StoryManager : MonoBehaviour
     
     private Story story;
 
+    private void Awake()
+    {
+        ScrollDialog.ChoiceSelected += ChoiceSelected;
+        ScrollDialog.ParagraphDisplayFinished += ParagraphDisplayFinished;
+    }
+
     private void Start()
     {
         story = new Story(InkJSON.text);
-        LoadStoryChunk();
-    }
-
-    private void Update()
-    {
-        
     }
 
     private void OnDestroy()
     {
-        
+        ScrollDialog.ChoiceSelected -= ChoiceSelected;
+        ScrollDialog.ParagraphDisplayFinished -= ParagraphDisplayFinished;
     }
 
     public void LoadStoryChunk()
