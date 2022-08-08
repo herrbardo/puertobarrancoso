@@ -612,7 +612,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 2.5, y: 0.7}
+  m_Size: {x: 2.5, y: 3.3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -864,11 +864,11 @@ RectTransform:
   m_Father: {fileID: 1969868891}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.34999847, y: 0.7100067}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -31}
   m_SizeDelta: {x: 223.59, y: 201.85}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1218169046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1279,6 +1279,7 @@ MonoBehaviour:
   ScrollRect: {fileID: 1218169046}
   DialogChoicePrefab: {fileID: 4641890070778982703, guid: 3ede92195327e1d4a9e6e448a5a7d2cc, type: 3}
   ScrollBar: {fileID: 2088383703}
+  ScrollArea: {fileID: 0}
 --- !u!1 &2088383703
 GameObject:
   m_ObjectHideFlags: 0

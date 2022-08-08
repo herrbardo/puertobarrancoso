@@ -21,6 +21,7 @@ public class ScrollDialog : MonoBehaviour
     [SerializeField] ScrollRect ScrollRect;
     [SerializeField] GameObject DialogChoicePrefab;
     [SerializeField] GameObject ScrollBar;
+    [SerializeField] GameObject ScrollArea;
 
     private ItemParagraph _lastParagraph;
     private List<DialogChoice> _currentChoices;

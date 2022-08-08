@@ -50,7 +50,10 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick (PointerEventData eventData)
     {
-        ZoomIn();
+        if(zoomIn)
+            ZoomOut();
+        else
+            ZoomIn();
     }
 
     void ZoomIn()
@@ -62,7 +65,7 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
         zooming = true;
         zoomIn = true;
         StartCoroutine(Zoom(true));
-        StartCoroutine(MoveCamera(MoveToLeft));
+        StartCoroutine(MoveCamera(true));
     }
 
     void CreateDialogSystem()
@@ -105,7 +108,7 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
             PivotCamera.transform.position = new Vector3(x,PivotCamera.transform.position.z, PivotCamera.transform.position.z);
             yield return null;
         }
-
+        
         moveFinished = true;
         yield return null;
     }
@@ -128,4 +131,20 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
     {
         StoryManager.LoadStoryChunk();
     }
+
+    void ZoomOut()
+    {
+        if(!zoomFinished || !moveFinished || !zoomIn)
+            return;
+        
+        zoomFinished = false;
+        moveFinished = false;
+        zooming = true;
+        zoomIn = false;
+        StartCoroutine(Zoom(false));
+        StartCoroutine(MoveCamera(false));
+
+        Scroll.Roll();
+    }
+
 }
