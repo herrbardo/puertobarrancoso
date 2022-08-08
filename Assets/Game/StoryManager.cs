@@ -6,31 +6,28 @@ using Ink.Runtime;
 public class StoryManager : MonoBehaviour
 {
     [SerializeField] TextAsset InkJSON;
-    [SerializeField] DialogSystem DialogSystem;
+    [SerializeField] ScrollDialog ScrollDialog;
     
     private Story story;
+
+    private void Awake()
+    {
+        ScrollDialog.ChoiceSelected += ChoiceSelected;
+        ScrollDialog.ParagraphDisplayFinished += ParagraphDisplayFinished;
+    }
 
     private void Start()
     {
         story = new Story(InkJSON.text);
-        DialogSystem.ChoiceSelected += ChoiceSelected;
-        DialogSystem.ParagraphDisplayFinished += ParagraphDisplayFinished;
-        LoadStoryChunk();
-    }
-
-    private void Update()
-    {
-        if(Input.anyKey)
-            DialogSystem.ForceEndDisplay();
     }
 
     private void OnDestroy()
     {
-        DialogSystem.ChoiceSelected -= ChoiceSelected;
-        DialogSystem.ParagraphDisplayFinished -= ParagraphDisplayFinished;
+        ScrollDialog.ChoiceSelected -= ChoiceSelected;
+        ScrollDialog.ParagraphDisplayFinished -= ParagraphDisplayFinished;
     }
 
-    void LoadStoryChunk()
+    public void LoadStoryChunk()
     {
         if(story.canContinue)
         {
@@ -38,14 +35,14 @@ public class StoryManager : MonoBehaviour
             if(text == string.Empty || text == null)
                 text = "END";
             
-            DialogSystem.AddDialogLine(text);
+            ScrollDialog.AddDialogLine(text);
         }
     }
 
-    void LoadChoices()
+    public void LoadChoices()
     {
         foreach (Choice choice in story.currentChoices)
-            DialogSystem.AddChoice(choice.index, choice.text);
+            ScrollDialog.AddChoice(choice.index, choice.text);
     }
 
     void ChoiceSelected(int choiceIndex, string choiceText)

@@ -13,7 +13,7 @@ public class DialogChoice : MonoBehaviour
     [SerializeField] bool Available;
     [SerializeField] Button ButtonContainer;
     [SerializeField] public int ID;
-    [SerializeField] public DialogSystem ParentSystem;
+    [SerializeField] public ScrollDialog ParentSystem;
 
     bool choiceSelected;
 

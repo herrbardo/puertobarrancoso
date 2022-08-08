@@ -4,8 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public delegate void ChoiceSelectedDelegate(int id, string choiceText);
-public delegate void ParagraphDisplayFinishedDelegate();
+//public delegate void ChoiceSelectedDelegate(int id, string choiceText);
+//public delegate void ParagraphDisplayFinishedDelegate();
 public class DialogSystem : MonoBehaviour
 {
     [SerializeField] GameObject ItemParagraphPrefab;
@@ -51,7 +51,7 @@ public class DialogSystem : MonoBehaviour
         SetupItem(paragraph);
         ItemParagraph itemParagraph = paragraph.GetComponent<ItemParagraph>();
         itemParagraph.TextToDisplay = string.Format("- {0}", dialogText);
-        itemParagraph.ParentSystem = this;
+        //itemParagraph.ParentSystem = this;
         _lastParagraph = itemParagraph;
     }
 
@@ -60,7 +60,7 @@ public class DialogSystem : MonoBehaviour
         GameObject choice = Instantiate(DialogChoicePrefab);
         SetupItem(choice);
         DialogChoice dialogChoice = choice.GetComponent<DialogChoice>();
-        dialogChoice.ParentSystem = this;
+        //dialogChoice.ParentSystem = this;
         dialogChoice.SetValues(id, string.Format("- {0}", choiceText));
         _currentChoices.Add(dialogChoice);
     }
