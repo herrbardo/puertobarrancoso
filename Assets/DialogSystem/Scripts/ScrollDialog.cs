@@ -85,11 +85,7 @@ public class ScrollDialog : MonoBehaviour
             yield return null;
         }
 
-        if(up)
-        {
-            this.ScrollBar.SetActive(false);
-        }
-        else
+        if(!up)
         {
             SwitchScrollDisplay(true);
             OnUnscrolled();
