@@ -62,9 +62,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00e82b38bd8a704ebbd79ddd923e976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvailableColor: {r: 0.754717, g: 0.31769237, b: 0.03203986, a: 1}
-  HoverColor: {r: 0.39202473, g: 0.079832695, b: 0.735849, a: 1}
-  SelectedColor: {r: 0.045605406, g: 0.6886792, b: 0.009745443, a: 1}
+  AvailableColor: {r: 1, g: 1, b: 1, a: 1}
+  HoverColor: {r: 0.7372549, g: 0.22533303, b: 0.07843137, a: 1}
+  SelectedColor: {r: 0.7372549, g: 0.22352941, b: 0.078431375, a: 1}
   ChoiceText: {fileID: 8880699493659061335}
   Available: 1
   ButtonContainer: {fileID: 3468682606118384138}
