@@ -11,21 +11,25 @@ public delegate void ParagraphDisplayFinishedDelegate();
 
 public class ScrollDialog : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer ScrollSprite;
+    [Header("Parameters")]
     [SerializeField] float RollDuration;
     [SerializeField] float MaxHeightToUnroll;
     [SerializeField] float MinHeightToRoll;
-    [SerializeField] GameObject ItemParagraphPrefab;
+    [SerializeField] float MaxHeightScrollArea;
+
+    [Header("Components")]
+    [SerializeField] SpriteRenderer ScrollSprite;
     [SerializeField] GameObject ItemTextPrefab;
     [SerializeField] VerticalLayoutGroup LayoutGroup;
     [SerializeField] ScrollRect ScrollRect;
     [SerializeField] GameObject DialogChoicePrefab;
     [SerializeField] GameObject ScrollBar;
     [SerializeField] GameObject ScrollArea;
-    [SerializeField] float MaxHeightScrollArea;
+    [SerializeField] RectTransform RectTransform;
 
     private ItemParagraph _lastParagraph;
     private List<DialogChoice> _currentChoices;
+    public static ScrollDialog Instance;
 
     public ScrollDialog()
     {
@@ -57,6 +61,14 @@ public class ScrollDialog : MonoBehaviour
     }
 
     #endregion
+
+    private void Awake()
+    {
+        if(Instance == null)
+            Instance = this;
+        else
+            Destroy(this.gameObject);
+    }
 
     private void Start()
     {
@@ -138,7 +150,7 @@ public class ScrollDialog : MonoBehaviour
         ScrollToBottom(true);
     }
 
-    void Hide()
+    public void Hide()
     {
         this.gameObject.SetActive(false);
         SwitchScrollDisplay(false);
@@ -202,5 +214,19 @@ public class ScrollDialog : MonoBehaviour
 
         scrollContainer.color = new Color(scrollContainer.color.r, scrollContainer.color.g, scrollContainer.color.b, alpha);
         handleImage.color = new Color(handleImage.color.r, handleImage.color.g, handleImage.color.b, alpha);
+    }
+
+    public void AttachLeft()
+    {
+        RectTransform.anchorMin = new Vector2(0f, 0f);
+        RectTransform.anchorMax = new Vector2(0f, 1f);
+        RectTransform.pivot = new Vector2(0f, 05f);
+    }
+
+    public void AttachRight()
+    {
+        RectTransform.anchorMin = new Vector2(1f, 0f);
+        RectTransform.anchorMax = new Vector2(1f, 1f);
+        RectTransform.pivot = new Vector2(1f, 05f);
     }
 }

@@ -5,37 +5,18 @@ using Cinemachine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
-// ESTA CLASE SOLO ES PARA EL PROTOTIPO. Repensarla para el vertical sliced ó release
 public class NPCController : MonoBehaviour, IPointerClickHandler
 {   
-    [SerializeField] CinemachineVirtualCamera VirtualCamera;
-    [SerializeField] GameObject PivotCamera;
-    [SerializeField] GameObject ScrollDialogPrefab;
     [SerializeField] ScrollDialog Scroll;
-    [SerializeField] GameObject DialogSystemPrefab;
-    [SerializeField] GameObject PivotScroll;
-    [SerializeField] Transform CanvasUI;
-    [SerializeField] float ZoomDuration;
-    [SerializeField] float MinOrthographicSize ;
-    [SerializeField] float MaxOrthographicSize;
-    [SerializeField] float MoveCameraXOffset;
-    [SerializeField] bool MoveToLeft;
-    [SerializeField] float MoveDuration;
+    [SerializeField] bool AttachLeft;
     [SerializeField] StoryManager StoryManager;
+    [SerializeField] Vector2 PositionWhenFocusIn;
 
-    bool zoomIn;
-    bool zooming;
-    bool zoomFinished;
-    bool moveFinished;
+    bool dialogActive;
 
     private void Awake()
     {
         Scroll.Unscrolled += ScrollDialog_Unscrolled;
-    }
-
-    private void Start()
-    {
-        zoomFinished = moveFinished = true;
     }
 
     private void OnDestroy()
@@ -43,87 +24,24 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
         Scroll.Unscrolled -= ScrollDialog_Unscrolled;
     }
 
-    private void Update()
-    {
-        CheckFinishedRoutines();
-    }
-
     public void OnPointerClick (PointerEventData eventData)
     {
-        if(zoomIn)
-            ZoomOut();
+        if(dialogActive)
+        {
+            ScrollDialog.Instance.Roll();
+            CameraManager.Instance.FocusOut();
+            dialogActive = false;
+        }
         else
-            ZoomIn();
-    }
-
-    void ZoomIn()
-    {
-        if(!zoomFinished || !moveFinished || zoomIn)
-            return;
-        zoomFinished = false;
-        moveFinished = false;
-        zooming = true;
-        zoomIn = true;
-        StartCoroutine(Zoom(true));
-        StartCoroutine(MoveCamera(true));
-    }
-
-    void CreateDialogSystem()
-    {
-        Scroll.Show();
-    }
-
-    IEnumerator Zoom(bool zoomIn)
-    {
-        float startSize = VirtualCamera.m_Lens.OrthographicSize;
-        float limitSize = (zoomIn) ? MinOrthographicSize : MaxOrthographicSize;
-        float currentTime = 0;
-
-        while (currentTime < ZoomDuration)
         {
-            currentTime += Time.deltaTime;
-            VirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(startSize, limitSize, currentTime / ZoomDuration);
-            yield return null;
-        }
+            if(AttachLeft)
+                ScrollDialog.Instance.AttachLeft();
+            else
+                ScrollDialog.Instance.AttachRight();
 
-        zoomFinished = true;
-        yield return null;
-    }
-
-    IEnumerator MoveCamera(bool moveIn)
-    {
-        float startX = PivotCamera.transform.position.x;
-        float targetX = 0f;
-        float currentTime = 0;
-
-        if((moveIn && MoveToLeft)||(!moveIn && !MoveToLeft))
-            targetX = startX - MoveCameraXOffset;
-        else if((moveIn && !MoveToLeft) || (!moveIn && MoveToLeft))
-            targetX = startX + MoveCameraXOffset;
-
-        while (currentTime < MoveDuration)
-        {
-            currentTime += Time.deltaTime;
-            float x = Mathf.Lerp(startX, targetX, currentTime / MoveDuration);
-            PivotCamera.transform.position = new Vector3(x,PivotCamera.transform.position.z, PivotCamera.transform.position.z);
-            yield return null;
-        }
-        
-        moveFinished = true;
-        yield return null;
-    }
-
-    void CheckFinishedRoutines()
-    {
-        if(!zooming)
-            return;
-
-        if(zoomFinished && moveFinished)
-        {
-            zooming = false;
-
-            if(zoomIn)
-                CreateDialogSystem();
+            ScrollDialog.Instance.Show();
+            CameraManager.Instance.FocusIn(PositionWhenFocusIn);
+            dialogActive = true;
         }
     }
 
@@ -131,20 +49,4 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
     {
         StoryManager.LoadStoryChunk();
     }
-
-    void ZoomOut()
-    {
-        if(!zoomFinished || !moveFinished || !zoomIn)
-            return;
-        
-        zoomFinished = false;
-        moveFinished = false;
-        zooming = true;
-        zoomIn = false;
-        StartCoroutine(Zoom(false));
-        StartCoroutine(MoveCamera(false));
-
-        Scroll.Roll();
-    }
-
 }
