@@ -14,7 +14,6 @@ public class CameraManager : MonoBehaviour
     [SerializeField] float ZoomDuration;
     [SerializeField] float MinOrthographicSize;
     [SerializeField] float MaxOrthographicSize;
-    [SerializeField] float MoveCameraXOffset;
     [SerializeField] float MoveDuration;
 
     #endregion

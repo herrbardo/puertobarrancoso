@@ -212,7 +212,6 @@ MonoBehaviour:
   ZoomDuration: 1
   MinOrthographicSize: 2
   MaxOrthographicSize: 5
-  MoveCameraXOffset: 1
   MoveDuration: 1
 --- !u!1 &201325724
 GameObject:
@@ -262,6 +261,7 @@ GameObject:
   - component: {fileID: 402473609}
   - component: {fileID: 402473610}
   - component: {fileID: 402473611}
+  - component: {fileID: 402473613}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -329,6 +329,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!222 &402473613
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402473608}
+  m_CullTransparentMesh: 1
 --- !u!1 &504842883
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,7 +958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Scroll: {fileID: 1969868893}
-  AttachLeft: 0
+  AttachLeft: 1
   StoryManager: {fileID: 1588228234}
   PositionWhenFocusIn: {x: -1, y: 0}
 --- !u!61 &1588228232

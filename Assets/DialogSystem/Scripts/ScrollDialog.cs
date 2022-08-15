@@ -18,18 +18,18 @@ public class ScrollDialog : MonoBehaviour
     [SerializeField] float MaxHeightScrollArea;
 
     [Header("Components")]
-    [SerializeField] SpriteRenderer ScrollSprite;
-    [SerializeField] GameObject ItemTextPrefab;
     [SerializeField] VerticalLayoutGroup LayoutGroup;
-    [SerializeField] ScrollRect ScrollRect;
-    [SerializeField] GameObject DialogChoicePrefab;
+    [SerializeField] RectTransform RectTransform;
+    [SerializeField] SpriteRenderer ScrollSprite;
     [SerializeField] GameObject ScrollBar;
     [SerializeField] GameObject ScrollArea;
-    [SerializeField] RectTransform RectTransform;
+    [SerializeField] GameObject ItemTextPrefab;
+    [SerializeField] GameObject DialogChoicePrefab;
 
     private ItemParagraph _lastParagraph;
     private List<DialogChoice> _currentChoices;
     public static ScrollDialog Instance;
+    ScrollRect _scrollRectArea;
 
     public ScrollDialog()
     {
@@ -65,7 +65,10 @@ public class ScrollDialog : MonoBehaviour
     private void Awake()
     {
         if(Instance == null)
+        {
             Instance = this;
+            _scrollRectArea = ScrollArea.GetComponent<ScrollRect>();
+        }
         else
             Destroy(this.gameObject);
     }
@@ -166,9 +169,9 @@ public class ScrollDialog : MonoBehaviour
     {
         Canvas.ForceUpdateCanvases();
         if(hard)
-            ScrollRect.verticalNormalizedPosition = -1;
+            _scrollRectArea.verticalNormalizedPosition = -1;
         else
-            ScrollRect.verticalNormalizedPosition = 0;
+            _scrollRectArea.verticalNormalizedPosition = 0;
     }
 
     public void AddChoice(int id, string choiceText)
