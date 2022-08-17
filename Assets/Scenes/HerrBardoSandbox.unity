@@ -170,7 +170,7 @@ MonoBehaviour:
     ModeOverride: 1
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7786459, y: 1}
+    m_SensorSize: {x: 2.0732539, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -941,6 +941,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1541302624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1541302626}
+  - component: {fileID: 1541302625}
+  m_Layer: 0
+  m_Name: StoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1541302625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541302624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a4af6585adc5740ab0a1c89b2a2bcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InkJSON: {fileID: 4900000, guid: 3d1b13b2cf9ad0441b7f455334230346, type: 3}
+  ScrollDialog: {fileID: 1969868893}
+--- !u!4 &1541302626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541302624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.46, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1588228227
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +1000,6 @@ GameObject:
   - component: {fileID: 1588228231}
   - component: {fileID: 1588228232}
   - component: {fileID: 1588228233}
-  - component: {fileID: 1588228234}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -1043,7 +1088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scroll: {fileID: 1969868893}
   AttachLeft: 1
-  StoryManager: {fileID: 1588228234}
+  StoryManager: {fileID: 1541302625}
   PositionWhenFocusIn: {x: -5.29, y: 1.35}
 --- !u!61 &1588228232
 BoxCollider2D:
@@ -1092,20 +1137,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1588228234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588228227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26a4af6585adc5740ab0a1c89b2a2bcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InkJSON: {fileID: 4900000, guid: 3d1b13b2cf9ad0441b7f455334230346, type: 3}
-  ScrollDialog: {fileID: 1969868893}
 --- !u!1 &1729228212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,7 +1234,6 @@ GameObject:
   - component: {fileID: 1822243421}
   - component: {fileID: 1822243420}
   - component: {fileID: 1822243419}
-  - component: {fileID: 1822243418}
   m_Layer: 0
   m_Name: NPC (1)
   m_TagString: Untagged
@@ -1211,20 +1241,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1822243418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822243417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26a4af6585adc5740ab0a1c89b2a2bcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InkJSON: {fileID: 4900000, guid: 3d1b13b2cf9ad0441b7f455334230346, type: 3}
-  ScrollDialog: {fileID: 1969868893}
 --- !u!50 &1822243419
 Rigidbody2D:
   serializedVersion: 4
@@ -1286,7 +1302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scroll: {fileID: 1969868893}
   AttachLeft: 1
-  StoryManager: {fileID: 1822243418}
+  StoryManager: {fileID: 1541302625}
   PositionWhenFocusIn: {x: 2.21, y: 0.59}
 --- !u!212 &1822243422
 SpriteRenderer:
