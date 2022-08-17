@@ -184,5 +184,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a6c9ad35097d964d8df7aa647fd1700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharDisplayInterval: 0.1
+  CharDisplayInterval: 0.07
   ParagraphText: {fileID: 5357701677003884733}
