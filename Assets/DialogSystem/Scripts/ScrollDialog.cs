@@ -18,9 +18,9 @@ public class ScrollDialog : MonoBehaviour
     [SerializeField] float MaxHeightScrollArea;
 
     [Header("Components")]
+    [SerializeField] RectTransform RootRect;
     [SerializeField] VerticalLayoutGroup LayoutGroup;
-    [SerializeField] RectTransform RectTransform;
-    [SerializeField] SpriteRenderer ScrollSprite;
+    [SerializeField] RectTransform ScrollContainerRect;
     [SerializeField] GameObject ScrollBar;
     [SerializeField] GameObject ScrollArea;
     [SerializeField] GameObject ItemTextPrefab;
@@ -93,14 +93,14 @@ public class ScrollDialog : MonoBehaviour
     IEnumerator Scroll(bool up, Action callback)
     {
         float currentTime = 0;
-        float start = ScrollSprite.size.y;
+        float start = ScrollContainerRect.sizeDelta.y;
         float targetHeight = (up) ? MinHeightToRoll : MaxHeightToUnroll;
 
         while (currentTime < RollDuration)
         {
             currentTime += Time.deltaTime;
             float height = Mathf.Lerp(start, targetHeight, currentTime / RollDuration);
-            ScrollSprite.size = new Vector2(ScrollSprite.size.x, height);
+            ScrollContainerRect.sizeDelta = new Vector2(ScrollContainerRect.sizeDelta.x, height);
             yield return null;
         }
 
@@ -221,15 +221,15 @@ public class ScrollDialog : MonoBehaviour
 
     public void AttachLeft()
     {
-        RectTransform.anchorMin = new Vector2(0f, 0f);
-        RectTransform.anchorMax = new Vector2(0f, 1f);
-        RectTransform.pivot = new Vector2(0f, 05f);
+        RootRect.anchorMin = new Vector2(0f, 1f);
+        RootRect.anchorMax = new Vector2(0f, 1f);
+        RootRect.pivot = new Vector2(0f, 01f);
     }
 
     public void AttachRight()
     {
-        RectTransform.anchorMin = new Vector2(1f, 0f);
-        RectTransform.anchorMax = new Vector2(1f, 1f);
-        RectTransform.pivot = new Vector2(1f, 05f);
+        RootRect.anchorMin = new Vector2(1f, 1f);
+        RootRect.anchorMax = new Vector2(1f, 1f);
+        RootRect.pivot = new Vector2(1f, 1f);
     }
 }
