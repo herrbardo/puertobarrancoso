@@ -6,22 +6,22 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 public class NPCController : MonoBehaviour, IPointerClickHandler
-{   
-    [SerializeField] ScrollDialog Scroll;
+{ 
     [SerializeField] bool AttachLeft;
     [SerializeField] StoryManager StoryManager;
     [SerializeField] Vector2 PositionWhenFocusIn;
+    [SerializeField] string Name;
 
     bool dialogActive;
 
-    private void Awake()
+    private void Start()
     {
-        Scroll.Unscrolled += ScrollDialog_Unscrolled;
+        ScrollDialog.Instance.Unscrolled += ScrollDialog_Unscrolled;
     }
 
     private void OnDestroy()
     {
-        Scroll.Unscrolled -= ScrollDialog_Unscrolled;
+        ScrollDialog.Instance.Unscrolled -= ScrollDialog_Unscrolled;
     }
 
     public void OnPointerClick (PointerEventData eventData)
@@ -42,6 +42,7 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
             ScrollDialog.Instance.Show();
             CameraManager.Instance.FocusIn(PositionWhenFocusIn);
             dialogActive = true;
+            NPCEvents.GetInstance().OnNPCSelected(this.Name);
         }
     }
 

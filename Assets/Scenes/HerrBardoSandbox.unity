@@ -1161,7 +1161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a4af6585adc5740ab0a1c89b2a2bcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InkJSON: {fileID: 4900000, guid: 3d1b13b2cf9ad0441b7f455334230346, type: 3}
+  InkJSON: {fileID: 4900000, guid: 2f1be35710bfd9a49838befc342dbe63, type: 3}
   ScrollDialog: {fileID: 1969868893}
 --- !u!4 &1541302626
 Transform:
@@ -1343,10 +1343,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0b21e32363452e4099dbcfc25bdcb31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Scroll: {fileID: 1969868893}
   AttachLeft: 1
   StoryManager: {fileID: 1541302625}
   PositionWhenFocusIn: {x: -5.29, y: 1.35}
+  Name: Fire
 --- !u!61 &1588228232
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1557,10 +1557,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0b21e32363452e4099dbcfc25bdcb31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Scroll: {fileID: 1969868893}
   AttachLeft: 1
   StoryManager: {fileID: 1541302625}
   PositionWhenFocusIn: {x: 2.21, y: 0.59}
+  Name: Goblin
 --- !u!212 &1822243422
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1754,7 +1754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c0ce83d476e37438357dd63b529558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DialogSystem: {fileID: 0}
+  StoryManager: {fileID: 1541302625}
 --- !u!4 &1922058477
 Transform:
   m_ObjectHideFlags: 0

@@ -135,11 +135,12 @@ public class ScrollDialog : MonoBehaviour
         yield return null;
     }
 
-    public void AddDialogLine(string dialogText)
+    public void AddDialogLine(string dialogText, bool enableReportAtEndDisplay, string speaker)
     {
         GameObject itemText = Instantiate(ItemTextPrefab);
         ItemParagraph paragraph = itemText.GetComponent<ItemParagraph>();
-        paragraph.TextToDisplay = "-" + dialogText;
+        paragraph.EnableReportAtEnd = enableReportAtEndDisplay;
+        paragraph.TextToDisplay = string.Format("{0} - {1}", speaker, dialogText);
         paragraph.ParentSystem = this;
         SetupItem(itemText);
     }

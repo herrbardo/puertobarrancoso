@@ -1,15 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SandboxManager : MonoBehaviour
 {
-    [SerializeField] DialogSystem DialogSystem;
+    [SerializeField] StoryManager StoryManager;
+
+    private bool firstChoice;
 
     void Start()
     {
-        // DialogSystem.AddDialogLine("Hola ¿Cómo estas?");
-        // DialogSystem.AddChoice(0, "Bien, y vos?");
-        // DialogSystem.AddChoice(1, "Cerrá el orto");
+        StoryManager.LoadStoryChunk();
+        NPCEvents.GetInstance().NPCSelected += NPC_Selected;
+    }
+
+    private void OnDestroy()
+    {
+        NPCEvents.GetInstance().NPCSelected -= NPC_Selected;
+    }
+
+    void NPC_Selected(string name)
+    {
+        if(!StoryManager.WaitingForUserInteraction)
+            return;
+        
+        if(name == "Fire")
+            StoryManager.SetChoiceByText("Hablar con Fire");
+        else if(name == "Goblin")
+            StoryManager.SetChoiceByText("Hablar con Goblin");
     }
 }
