@@ -39,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 112, y: 0}
+  m_SizeDelta: {x: 204, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &5357701677003884732
 CanvasRenderer:
@@ -71,8 +71,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Hola mondo
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ee5cce6792066fb4a94470330ed56180, type: 2}
+  m_sharedMaterial: {fileID: -8721259618779715648, guid: ee5cce6792066fb4a94470330ed56180, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -184,5 +184,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a6c9ad35097d964d8df7aa647fd1700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharDisplayInterval: 0.1
+  CharDisplayInterval: 0.07
   ParagraphText: {fileID: 5357701677003884733}

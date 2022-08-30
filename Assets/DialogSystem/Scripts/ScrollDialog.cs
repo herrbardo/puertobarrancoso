@@ -11,18 +11,25 @@ public delegate void ParagraphDisplayFinishedDelegate();
 
 public class ScrollDialog : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer ScrollSprite;
+    [Header("Parameters")]
     [SerializeField] float RollDuration;
     [SerializeField] float MaxHeightToUnroll;
     [SerializeField] float MinHeightToRoll;
-    [SerializeField] GameObject ItemParagraphPrefab;
-    [SerializeField] GameObject ItemTextPrefab;
+    [SerializeField] float MaxHeightScrollArea;
+
+    [Header("Components")]
+    [SerializeField] RectTransform RootRect;
     [SerializeField] VerticalLayoutGroup LayoutGroup;
-    [SerializeField] ScrollRect ScrollRect;
+    [SerializeField] RectTransform ScrollContainerRect;
+    [SerializeField] GameObject ScrollBar;
+    [SerializeField] GameObject ScrollArea;
+    [SerializeField] GameObject ItemTextPrefab;
     [SerializeField] GameObject DialogChoicePrefab;
 
     private ItemParagraph _lastParagraph;
     private List<DialogChoice> _currentChoices;
+    public static ScrollDialog Instance;
+    ScrollRect _scrollRectArea;
 
     public ScrollDialog()
     {
@@ -55,6 +62,17 @@ public class ScrollDialog : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+            _scrollRectArea = ScrollArea.GetComponent<ScrollRect>();
+        }
+        else
+            Destroy(this.gameObject);
+    }
+
     private void Start()
     {
         Hide();
@@ -63,32 +81,56 @@ public class ScrollDialog : MonoBehaviour
     public void Unroll()
     {
         StartCoroutine(Scroll(false, null));
+        StartCoroutine(StretchScrollArea(false));
     }
 
     public void Roll()
     {
         StartCoroutine(Scroll(true, Hide));
+        StartCoroutine(StretchScrollArea(true));
     }
 
     IEnumerator Scroll(bool up, Action callback)
     {
         float currentTime = 0;
-        float start = ScrollSprite.size.y;
+        float start = ScrollContainerRect.sizeDelta.y;
         float targetHeight = (up) ? MinHeightToRoll : MaxHeightToUnroll;
 
         while (currentTime < RollDuration)
         {
             currentTime += Time.deltaTime;
             float height = Mathf.Lerp(start, targetHeight, currentTime / RollDuration);
-            ScrollSprite.size = new Vector2(ScrollSprite.size.x, height);
+            ScrollContainerRect.sizeDelta = new Vector2(ScrollContainerRect.sizeDelta.x, height);
             yield return null;
         }
 
         if(!up)
+        {
+            SwitchScrollDisplay(true);
             OnUnscrolled();
+        }
         
         if(callback != null)
             callback();
+
+        yield return null;
+    }
+
+    IEnumerator StretchScrollArea(bool up)
+    {
+        RectTransform rect = ScrollArea.GetComponent<RectTransform>();
+        float currentTime = 0f;
+        float minHeight = 0f;
+        float start = rect.sizeDelta.y;
+        float targetHeight = (up) ? minHeight : MaxHeightScrollArea;
+
+        while (currentTime < RollDuration)
+        {
+            currentTime += Time.deltaTime;
+            float height = Mathf.Lerp(start, targetHeight, currentTime / RollDuration);
+            rect.sizeDelta = new Vector2(rect.sizeDelta.x, height);
+            yield return null;
+        }
 
         yield return null;
     }
@@ -111,9 +153,10 @@ public class ScrollDialog : MonoBehaviour
         ScrollToBottom(true);
     }
 
-    void Hide()
+    public void Hide()
     {
         this.gameObject.SetActive(false);
+        SwitchScrollDisplay(false);
     }
 
     public void Show()
@@ -126,9 +169,9 @@ public class ScrollDialog : MonoBehaviour
     {
         Canvas.ForceUpdateCanvases();
         if(hard)
-            ScrollRect.verticalNormalizedPosition = -5;
+            _scrollRectArea.verticalNormalizedPosition = -1;
         else
-            ScrollRect.verticalNormalizedPosition = 0;
+            _scrollRectArea.verticalNormalizedPosition = 0;
     }
 
     public void AddChoice(int id, string choiceText)
@@ -164,5 +207,29 @@ public class ScrollDialog : MonoBehaviour
     public void ReportCharacaterDisplayed()
     {
         ScrollToBottom(false);
+    }
+
+    void SwitchScrollDisplay(bool displayOn)
+    {
+        float alpha = (displayOn) ? 255f : 0f;
+        Image scrollContainer = this.ScrollBar.GetComponent<Image>();
+        Image handleImage = this.ScrollBar.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+
+        scrollContainer.color = new Color(scrollContainer.color.r, scrollContainer.color.g, scrollContainer.color.b, alpha);
+        handleImage.color = new Color(handleImage.color.r, handleImage.color.g, handleImage.color.b, alpha);
+    }
+
+    public void AttachLeft()
+    {
+        RootRect.anchorMin = new Vector2(0f, 1f);
+        RootRect.anchorMax = new Vector2(0f, 1f);
+        RootRect.pivot = new Vector2(0f, 01f);
+    }
+
+    public void AttachRight()
+    {
+        RootRect.anchorMin = new Vector2(1f, 1f);
+        RootRect.anchorMax = new Vector2(1f, 1f);
+        RootRect.pivot = new Vector2(1f, 1f);
     }
 }
