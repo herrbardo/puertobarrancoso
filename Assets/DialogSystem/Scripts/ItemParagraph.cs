@@ -12,6 +12,7 @@ public class ItemParagraph : MonoBehaviour
     [NonSerialized] public string TextToDisplay;
     [NonSerialized] public ScrollDialog ParentSystem;
     [NonSerialized] public bool EndDisplay;
+    [SerializeField] public float EndDisplayInterval;
 
     void Start()
     {
@@ -31,15 +32,10 @@ public class ItemParagraph : MonoBehaviour
             ParagraphText.text = string.Empty;
             for (int i = 0; i < TextToDisplay.Length; i++)
             {
+                float displaySpeed = (EndDisplay)? EndDisplayInterval : CharDisplayInterval;
                 ParagraphText.text += TextToDisplay[i];
                 ParentSystem.ReportCharacaterDisplayed();
-                yield return new WaitForSeconds(CharDisplayInterval);
-
-                if(EndDisplay)
-                {
-                    ParagraphText.text = TextToDisplay;
-                    break;
-                }
+                yield return new WaitForSeconds(displaySpeed);
             }
         ParentSystem.ReportParagraphDisplayFinished();
         }

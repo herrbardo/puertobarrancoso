@@ -186,3 +186,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharDisplayInterval: 0.07
   ParagraphText: {fileID: 5357701677003884733}
+  EndDisplayInterval: 0.008
