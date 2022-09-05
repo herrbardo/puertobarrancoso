@@ -27,12 +27,16 @@ public class ScrollDialog : MonoBehaviour
 
     private ItemParagraph _lastParagraph;
     private List<DialogChoice> _currentChoices;
+    private List<DialogChoice> _allChoices;
+    private List<ItemParagraph> _allItems;
     public static ScrollDialog Instance;
     ScrollRect _scrollRectArea;
 
     public ScrollDialog()
     {
         _currentChoices = new List<DialogChoice>();
+        _allChoices = new List<DialogChoice>();
+        _allItems = new List<ItemParagraph>();
     }
 
     #region Events
@@ -142,6 +146,7 @@ public class ScrollDialog : MonoBehaviour
         paragraph.TextToDisplay = string.Format("{0} - {1}", metadata.Speaker, dialogText);
         paragraph.ParentSystem = this;
         paragraph.Metadata = metadata;
+        _allItems.Add(paragraph);
         SetupItem(itemText);
     }
 
@@ -166,7 +171,7 @@ public class ScrollDialog : MonoBehaviour
         Unroll();
     }
 
-    void ScrollToBottom(bool hard)
+    public void ScrollToBottom(bool hard)
     {
         Canvas.ForceUpdateCanvases();
         if(hard)
@@ -184,6 +189,7 @@ public class ScrollDialog : MonoBehaviour
         dialogChoice.SetValues(id, string.Format("- {0}", choiceText));
         dialogChoice.Metadata = metadata;
         _currentChoices.Add(dialogChoice);
+        _allChoices.Add(dialogChoice);
         ScrollToBottom(true);
     }
 
@@ -233,5 +239,36 @@ public class ScrollDialog : MonoBehaviour
         RootRect.anchorMin = new Vector2(1f, 1f);
         RootRect.anchorMax = new Vector2(1f, 1f);
         RootRect.pivot = new Vector2(1f, 1f);
+    }
+
+    public void ClearFilter()
+    {
+        foreach (ItemParagraph item in _allItems)
+            item.gameObject.SetActive(true);
+        foreach (DialogChoice choice in _allChoices)
+            choice.gameObject.SetActive(true);
+    }
+
+    public void FilterBySpeaker(string speaker)
+    {
+        ClearFilter();
+
+        foreach (ItemParagraph item in _allItems)
+        {
+            if(item.Metadata == null || item.Metadata.Speaker == null)
+                continue;
+            if(!item.Metadata.Speaker.Equals(speaker))
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
+
+        foreach (DialogChoice choice in _allChoices)
+        {
+            if(choice.Metadata == null || choice.Metadata.Speaker == null)
+                continue;
+            if(!choice.Metadata.Speaker.Equals(speaker))
+                choice.gameObject.SetActive(false);
+        }
     }
 }

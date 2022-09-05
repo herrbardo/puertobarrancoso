@@ -40,10 +40,8 @@ public class NPCController : MonoBehaviour, IPointerClickHandler
                 ScrollDialog.Instance.AttachRight();
 
             ScrollDialog.Instance.Show();
-            
-            ScrollContainer container = ScrollDialog.Instance.GetComponentInChildren<ScrollContainer>();
-            container.FilterBySpeaker(Name);
-
+            ScrollDialog.Instance.FilterBySpeaker(Name);
+            ScrollDialog.Instance.ScrollToBottom(true);
             CameraManager.Instance.FocusIn(PositionWhenFocusIn);
             dialogActive = true;
             NPCEvents.GetInstance().OnNPCSelected(this.Name);
