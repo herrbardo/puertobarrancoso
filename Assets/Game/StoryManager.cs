@@ -33,28 +33,29 @@ public class StoryManager : MonoBehaviour
     {
         if(story.canContinue)
         {
-            string text = story.ContinueMaximally();
+            string text = story.Continue();
             StoryMetadata metadata = new StoryMetadata(story);
-
+            
             if(metadata.Type == NodeType.TEXT)
             {
                 WaitingForUserInteraction = false;
                 if(text == string.Empty || text == null)
                     text = "END";
-                ScrollDialog.AddDialogLine(text, true, metadata.Speaker);
+                ScrollDialog.AddDialogLine(text, true, metadata);
             }
             else if(metadata.Type == NodeType.INTERACTION)
             {
                 WaitingForUserInteraction = true;
-                ScrollDialog.AddDialogLine("[...]", false, string.Empty);
             }
         }
     }
 
     public void LoadChoices()
     {
+        StoryMetadata metadata = new StoryMetadata(story);
+
         foreach (Choice choice in story.currentChoices)
-            ScrollDialog.AddChoice(choice.index, choice.text);
+            ScrollDialog.AddChoice(choice.index, choice.text, metadata);
     }
 
     void ChoiceSelected(int choiceIndex, string choiceText)

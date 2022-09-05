@@ -14,6 +14,7 @@ public class ItemParagraph : MonoBehaviour
     [NonSerialized] public bool EndDisplay;
     [SerializeField] public float EndDisplayInterval;
     [NonSerialized] public bool EnableReportAtEnd;
+    [NonSerialized] public StoryMetadata Metadata;
 
     void Start()
     {

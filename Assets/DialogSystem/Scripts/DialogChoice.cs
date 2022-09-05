@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class DialogChoice : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DialogChoice : MonoBehaviour
     [SerializeField] Button ButtonContainer;
     [SerializeField] public int ID;
     [SerializeField] public ScrollDialog ParentSystem;
+    [NonSerialized] public StoryMetadata Metadata;
 
     bool choiceSelected;
 

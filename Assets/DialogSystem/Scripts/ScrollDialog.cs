@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using TMPro;
 
 public delegate void UnscrolledDelegate();
 public delegate void ChoiceSelectedDelegate(int id, string choiceText);
@@ -135,13 +134,14 @@ public class ScrollDialog : MonoBehaviour
         yield return null;
     }
 
-    public void AddDialogLine(string dialogText, bool enableReportAtEndDisplay, string speaker)
+    public void AddDialogLine(string dialogText, bool enableReportAtEndDisplay, StoryMetadata metadata)
     {
         GameObject itemText = Instantiate(ItemTextPrefab);
         ItemParagraph paragraph = itemText.GetComponent<ItemParagraph>();
         paragraph.EnableReportAtEnd = enableReportAtEndDisplay;
-        paragraph.TextToDisplay = string.Format("{0} - {1}", speaker, dialogText);
+        paragraph.TextToDisplay = string.Format("{0} - {1}", metadata.Speaker, dialogText);
         paragraph.ParentSystem = this;
+        paragraph.Metadata = metadata;
         SetupItem(itemText);
     }
 
@@ -175,13 +175,14 @@ public class ScrollDialog : MonoBehaviour
             _scrollRectArea.verticalNormalizedPosition = 0;
     }
 
-    public void AddChoice(int id, string choiceText)
+    public void AddChoice(int id, string choiceText, StoryMetadata metadata)
     {
         GameObject choice = Instantiate(DialogChoicePrefab);
         SetupItem(choice);
         DialogChoice dialogChoice = choice.GetComponent<DialogChoice>();
         dialogChoice.ParentSystem = this;
         dialogChoice.SetValues(id, string.Format("- {0}", choiceText));
+        dialogChoice.Metadata = metadata;
         _currentChoices.Add(dialogChoice);
         ScrollToBottom(true);
     }
