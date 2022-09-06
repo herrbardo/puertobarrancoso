@@ -1,0 +1,6 @@
+@back Outside.Pixelate time:5
+@bgm Cloudnine
+Goblin: Ke onda perro?
+@choice "Todo tranka"
+@choice "No me hables"
+@stop
