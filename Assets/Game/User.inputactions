@@ -7,9 +7,9 @@
             "actions": [
                 {
                     "name": "Forward",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "ec5e63f0-9f69-4a2f-a19e-2dde93f3c5a4",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -27,6 +27,15 @@
                     "name": "SelectDown",
                     "type": "Button",
                     "id": "21b3a50f-0c6d-4da8-964a-31d4756e19df",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Use",
+                    "type": "Button",
+                    "id": "89d07dd0-1cf2-4f86-96ce-e3577b8f1949",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -64,6 +73,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SelectDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ecc405e6-596d-461c-aa0e-be00f404f39d",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

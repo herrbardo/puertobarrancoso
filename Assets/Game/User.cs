@@ -29,9 +29,9 @@ public partial class @User : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Forward"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""ec5e63f0-9f69-4a2f-a19e-2dde93f3c5a4"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -49,6 +49,15 @@ public partial class @User : IInputActionCollection2, IDisposable
                     ""name"": ""SelectDown"",
                     ""type"": ""Button"",
                     ""id"": ""21b3a50f-0c6d-4da8-964a-31d4756e19df"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""89d07dd0-1cf2-4f86-96ce-e3577b8f1949"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -86,6 +95,17 @@ public partial class @User : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SelectDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ecc405e6-596d-461c-aa0e-be00f404f39d"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -239,6 +259,7 @@ public partial class @User : IInputActionCollection2, IDisposable
         m_Keyboard_Forward = m_Keyboard.FindAction("Forward", throwIfNotFound: true);
         m_Keyboard_SelectUp = m_Keyboard.FindAction("SelectUp", throwIfNotFound: true);
         m_Keyboard_SelectDown = m_Keyboard.FindAction("SelectDown", throwIfNotFound: true);
+        m_Keyboard_Use = m_Keyboard.FindAction("Use", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_Pan = m_Mouse.FindAction("Pan", throwIfNotFound: true);
@@ -309,6 +330,7 @@ public partial class @User : IInputActionCollection2, IDisposable
     private readonly InputAction m_Keyboard_Forward;
     private readonly InputAction m_Keyboard_SelectUp;
     private readonly InputAction m_Keyboard_SelectDown;
+    private readonly InputAction m_Keyboard_Use;
     public struct KeyboardActions
     {
         private @User m_Wrapper;
@@ -316,6 +338,7 @@ public partial class @User : IInputActionCollection2, IDisposable
         public InputAction @Forward => m_Wrapper.m_Keyboard_Forward;
         public InputAction @SelectUp => m_Wrapper.m_Keyboard_SelectUp;
         public InputAction @SelectDown => m_Wrapper.m_Keyboard_SelectDown;
+        public InputAction @Use => m_Wrapper.m_Keyboard_Use;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -334,6 +357,9 @@ public partial class @User : IInputActionCollection2, IDisposable
                 @SelectDown.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnSelectDown;
                 @SelectDown.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnSelectDown;
                 @SelectDown.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnSelectDown;
+                @Use.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnUse;
+                @Use.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnUse;
+                @Use.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnUse;
             }
             m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
             if (instance != null)
@@ -347,6 +373,9 @@ public partial class @User : IInputActionCollection2, IDisposable
                 @SelectDown.started += instance.OnSelectDown;
                 @SelectDown.performed += instance.OnSelectDown;
                 @SelectDown.canceled += instance.OnSelectDown;
+                @Use.started += instance.OnUse;
+                @Use.performed += instance.OnUse;
+                @Use.canceled += instance.OnUse;
             }
         }
     }
@@ -438,6 +467,7 @@ public partial class @User : IInputActionCollection2, IDisposable
         void OnForward(InputAction.CallbackContext context);
         void OnSelectUp(InputAction.CallbackContext context);
         void OnSelectDown(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {

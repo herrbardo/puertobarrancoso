@@ -3,21 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using PixelCrushers.DialogueSystem.Wrappers;
-using PixelCrushers.Wrappers;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UserControl : MonoBehaviour
 {
-    [SerializeField] InputActionReference InputUserControl;
     [SerializeField] DialogueSystemController DialogSystemController;
+    [SerializeField] float ForwardCooldown;
 
-    private void Update()
+    bool enableForward;
+
+    private void Start()
     {
-        Debug.Log(InputUserControl.action.IsPressed());
-        if(InputUserControl.action.IsPressed())
-            ForwardDialog();
+        enableForward = true;
+    }
+    
+    public void ForwardDialog(InputAction.CallbackContext context)
+    {
+        if(!enableForward)
+            return;
+
+        Forward();
+        enableForward = false;
+        Invoke("EnableFordwarding", ForwardCooldown);
     }
 
-    private void ForwardDialog()
+    void Forward()
     {
         GameObject continueButtonGameObject = GameObject.Find("Continue Button");
         if(continueButtonGameObject == null)
@@ -28,5 +39,32 @@ public class UserControl : MonoBehaviour
             return;
         
         continueButton.OnFastForward();
+    }
+
+    void EnableFordwarding()
+    {
+        enableForward = true;
+    }
+
+    public void SkipDialog(InputAction.CallbackContext context)
+    {
+        if(!enableForward)
+            return;
+
+        Forward();
+        Forward();
+        enableForward = false;
+        Invoke("EnableFordwarding", ForwardCooldown);
+    }
+
+    public void ChooseOption(InputAction.CallbackContext context)
+    {
+        // Button button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        // if(button != null && button.gameObject.name.StartsWith("Response"))
+        // {
+        //     Debug.Log("VERGA");
+        //     StandardUIResponseButton responseButton = button.gameObject.GetComponent<StandardUIResponseButton>();
+        //     responseButton.OnClick();
+        // }
     }
 }
