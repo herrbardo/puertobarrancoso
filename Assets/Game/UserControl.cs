@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using PixelCrushers.DialogueSystem.Wrappers;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using System;
 
 public class UserControl : MonoBehaviour
 {
@@ -16,6 +15,11 @@ public class UserControl : MonoBehaviour
     private void Start()
     {
         enableForward = true;
+    }
+
+    void ConversationStart(Transform t)
+    {
+        Debug.Log("VERGA " + DateTime.Now);
     }
     
     public void ForwardDialog(InputAction.CallbackContext context)
@@ -66,5 +70,17 @@ public class UserControl : MonoBehaviour
         //     StandardUIResponseButton responseButton = button.gameObject.GetComponent<StandardUIResponseButton>();
         //     responseButton.OnClick();
         // }
+    }
+
+    public void Back()
+    {
+        if(!enableForward)
+            return;
+
+        var backer = DialogSystemController.gameObject.GetComponent<PixelCrushers.DialogueSystem.Backtracker>();
+        backer.Backtrack(true);
+
+        enableForward = false;
+        Invoke("EnableFordwarding", ForwardCooldown);
     }
 }

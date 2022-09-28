@@ -265,7 +265,7 @@ MonoBehaviour:
   m_PointAction: {fileID: 0}
   m_MoveAction: {fileID: -4339404401778624993, guid: c3c34a0672c9aa34388124f4af6f205f, type: 3}
   m_SubmitAction: {fileID: 1468950042223343988, guid: c3c34a0672c9aa34388124f4af6f205f, type: 3}
-  m_CancelAction: {fileID: 0}
+  m_CancelAction: {fileID: -4797168131997106270, guid: c3c34a0672c9aa34388124f4af6f205f, type: 3}
   m_LeftClickAction: {fileID: -8201914280118927452, guid: c3c34a0672c9aa34388124f4af6f205f, type: 3}
   m_MiddleClickAction: {fileID: -2398296968066772679, guid: c3c34a0672c9aa34388124f4af6f205f, type: 3}
   m_RightClickAction: {fileID: 0}
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 11426072, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
   m_PrefabInstance: {fileID: 302882833}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 302882834}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab8b685e62a9aeb4a9472b30ec2d86d9, type: 3}
@@ -977,6 +977,26 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 6b1bf543-fd25-4b28-86db-b8a938a3a838
     m_ActionName: Movement/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8d89ca2c-d6aa-423f-a266-7169c25eac68
+    m_ActionName: Keyboard/Cancel[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 250549391}
+        m_TargetAssemblyTypeName: UserControl, Assembly-CSharp
+        m_MethodName: Back
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a3c893f5-9f20-4bf3-8128-f4f475356d30
+    m_ActionName: Keyboard/Back[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Keyboard
@@ -1229,6 +1249,14 @@ PrefabInstance:
       propertyPath: keyInputSwitchesModeTo
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11424616, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
+      propertyPath: backButtons.Array.data[0]
+      value: Q
+      objectReference: {fileID: 0}
+    - target: {fileID: 11426072, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
+      propertyPath: debugLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 11426072, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
       propertyPath: initialDatabase
       value: 
@@ -1255,6 +1283,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
+--- !u!1 &302882834 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 125852, guid: 58ac37417e60e534f91138088a3e6f70, type: 3}
+  m_PrefabInstance: {fileID: 302882833}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &302882835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302882834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f91e6b720bd884d9d94e09527d1c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
 --- !u!1 &331658006
 GameObject:
   m_ObjectHideFlags: 0

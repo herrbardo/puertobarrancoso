@@ -62,6 +62,24 @@ public partial class @User : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""8d89ca2c-d6aa-423f-a266-7169c25eac68"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3c893f5-9f20-4bf3-8128-f4f475356d30"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -106,6 +124,28 @@ public partial class @User : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8a1f8e2-22fe-4049-9bc3-6b27a7001a67"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ea97c4f-cee1-44a5-b070-848d830409be"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -260,6 +300,8 @@ public partial class @User : IInputActionCollection2, IDisposable
         m_Keyboard_SelectUp = m_Keyboard.FindAction("SelectUp", throwIfNotFound: true);
         m_Keyboard_SelectDown = m_Keyboard.FindAction("SelectDown", throwIfNotFound: true);
         m_Keyboard_Use = m_Keyboard.FindAction("Use", throwIfNotFound: true);
+        m_Keyboard_Cancel = m_Keyboard.FindAction("Cancel", throwIfNotFound: true);
+        m_Keyboard_Back = m_Keyboard.FindAction("Back", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_Pan = m_Mouse.FindAction("Pan", throwIfNotFound: true);
@@ -331,6 +373,8 @@ public partial class @User : IInputActionCollection2, IDisposable
     private readonly InputAction m_Keyboard_SelectUp;
     private readonly InputAction m_Keyboard_SelectDown;
     private readonly InputAction m_Keyboard_Use;
+    private readonly InputAction m_Keyboard_Cancel;
+    private readonly InputAction m_Keyboard_Back;
     public struct KeyboardActions
     {
         private @User m_Wrapper;
@@ -339,6 +383,8 @@ public partial class @User : IInputActionCollection2, IDisposable
         public InputAction @SelectUp => m_Wrapper.m_Keyboard_SelectUp;
         public InputAction @SelectDown => m_Wrapper.m_Keyboard_SelectDown;
         public InputAction @Use => m_Wrapper.m_Keyboard_Use;
+        public InputAction @Cancel => m_Wrapper.m_Keyboard_Cancel;
+        public InputAction @Back => m_Wrapper.m_Keyboard_Back;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -360,6 +406,12 @@ public partial class @User : IInputActionCollection2, IDisposable
                 @Use.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnUse;
                 @Use.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnUse;
                 @Use.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnUse;
+                @Cancel.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnCancel;
+                @Back.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnBack;
+                @Back.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnBack;
+                @Back.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnBack;
             }
             m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
             if (instance != null)
@@ -376,6 +428,12 @@ public partial class @User : IInputActionCollection2, IDisposable
                 @Use.started += instance.OnUse;
                 @Use.performed += instance.OnUse;
                 @Use.canceled += instance.OnUse;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
+                @Back.started += instance.OnBack;
+                @Back.performed += instance.OnBack;
+                @Back.canceled += instance.OnBack;
             }
         }
     }
@@ -468,6 +526,8 @@ public partial class @User : IInputActionCollection2, IDisposable
         void OnSelectUp(InputAction.CallbackContext context);
         void OnSelectDown(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {
