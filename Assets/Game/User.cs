@@ -29,9 +29,9 @@ public partial class @User : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Forward"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""ec5e63f0-9f69-4a2f-a19e-2dde93f3c5a4"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false

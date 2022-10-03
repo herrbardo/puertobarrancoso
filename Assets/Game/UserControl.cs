@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using PixelCrushers.DialogueSystem.Wrappers;
 using System;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UserControl : MonoBehaviour
 {
@@ -63,6 +65,9 @@ public class UserControl : MonoBehaviour
 
     public void ChooseOption(InputAction.CallbackContext context)
     {
+        // if(!enableForward)
+        //     return;
+
         // Button button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         // if(button != null && button.gameObject.name.StartsWith("Response"))
         // {
@@ -70,6 +75,9 @@ public class UserControl : MonoBehaviour
         //     StandardUIResponseButton responseButton = button.gameObject.GetComponent<StandardUIResponseButton>();
         //     responseButton.OnClick();
         // }
+
+        // enableForward = false;
+        // Invoke("EnableFordwarding", ForwardCooldown);
     }
 
     public void Back()
