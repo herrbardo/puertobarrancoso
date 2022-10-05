@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using PixelCrushers.DialogueSystem.Wrappers;
 using System;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+//using UnityEngine.EventSystems;
 
 public class UserControl : MonoBehaviour
 {
