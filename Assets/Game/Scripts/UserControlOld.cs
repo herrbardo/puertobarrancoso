@@ -11,13 +11,13 @@ public class UserControlOld : MonoBehaviour
     [SerializeField] float PressCooldown;
     [SerializeField] KeyCode FastForwardKey;
     [SerializeField] KeyCode UseKey;
-    [SerializeField] StandardUIContinueButtonFastForward ContinueButton;
 
-    bool enablePress;
+    StandardUIContinueButtonFastForward _continueButton;
+    bool _enablePress;
 
     private void Awake()
     {
-        enablePress = true;
+        _enablePress = true;
     }
 
     void Update()
@@ -28,34 +28,54 @@ public class UserControlOld : MonoBehaviour
             ChooseOption();
     }
 
+    void FindObjects()
+    {
+        GameObject dialogController = GameObject.Find("Dialogue Manager");
+        if(dialogController == null)
+            return;
+        
+        GameObject continueButtonGameObject = Utilities.Find("Continue Button", dialogController);
+        if(continueButtonGameObject)
+            Debug.Log("PUITA");
+        else
+            Debug.Log("NULL-O");
+    }
+
     public void ForwardDialog()
     {
-        if(!enablePress)
+        if(!_enablePress)
             return;
 
-        Forward();
+        GameObject go = GameObject.Find("Continue Button");
+        if(go != null)
+        {
+            _continueButton = go.GetComponent<StandardUIContinueButtonFastForward>();
+            if(_continueButton != null)
+                Forward();
+        }
+
         ReEnablePressSoon();
     }
 
     void ReEnablePressSoon()
     {
-        enablePress = false;
+        _enablePress = false;
         Invoke("EnablePressing", PressCooldown);
     }
 
     void EnablePressing()
     {
-        enablePress = true;
+        _enablePress = true;
     }
 
     void Forward()
     {
-        ContinueButton.OnFastForward();
+        _continueButton.OnFastForward();
     }
 
     void ChooseOption()
     {
-        if(!enablePress)
+        if(!_enablePress)
             return;
 
         Button button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
