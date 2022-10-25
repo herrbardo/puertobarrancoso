@@ -11,7 +11,7 @@ using UnityEditor.UIElements;
 using UnityEngine.AddressableAssets;
 using UnityEditor.AddressableAssets;
 
-[CustomEditor(typeof(Sequence))]
+[CustomEditor(typeof(SequenceData))]
 public class SequenceCustomEditor : Editor
 {
     SerializedObject serialized;
@@ -22,7 +22,7 @@ public class SequenceCustomEditor : Editor
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-        var sequence = (Sequence)target;
+        var sequence = (SequenceData)target;
 
         //if(serialized == null)
         serialized = new SerializedObject(sequence);
@@ -44,7 +44,7 @@ public class SequenceCustomEditor : Editor
             }
             if (action.action == null)
             {
-                action.action = ValidateType<ActionWait>(prop.FindPropertyRelative("action"));
+                action.action = ValidateType<ActionWaitData>(prop.FindPropertyRelative("action"));
                 prop.serializedObject.ApplyModifiedProperties();
             }
             prop.FindPropertyRelative("Type").stringValue = "" + i + ": " + GetType(action.action);
@@ -90,36 +90,36 @@ public class SequenceCustomEditor : Editor
         return newAction;
         
     }
-    private Action GetAction(ActionType type, SerializedProperty prop)
+    private ActionData GetAction(ActionType type, SerializedProperty prop)
     {
         switch (type)
         {
             case ActionType.Wait:
                 {
                     
-                    return ValidateType<ActionWait>(prop);
+                    return ValidateType<ActionWaitData>(prop);
                 }
             case ActionType.Show:
                 {
-                    return ValidateType<ActionShow>(prop);
+                    return ValidateType<ActionShowData>(prop);
                 }
             case ActionType.Hide:
                 {
-                    return ValidateType<ActionHide>(prop);
+                    return ValidateType<ActionHideData>(prop);
                 }
             case ActionType.ShowDialogue:
                 {
-                    return ValidateType<ActionShowDialogue>(prop);
+                    return ValidateType<ActionShowDialogueData>(prop);
                 }
             case ActionType.EndSequence:
                 {
-                    return ValidateType<ActionEndSequence>(prop);
+                    return ValidateType<ActionEndSequenceData>(prop);
                 }
             case ActionType.LoadSequence:
                 {
-                    return ValidateType<ActionLoadSequence>(prop);
+                    return ValidateType<ActionLoadSequenceData>(prop);
                 }
-            default: return ValidateType<ActionWait>(prop);
+            default: return ValidateType<ActionWaitData>(prop);
         }
     }
 
@@ -141,32 +141,32 @@ public class SequenceCustomEditor : Editor
         {
             case ActionType.Wait:
                 {
-                    DrawActionWait((ActionWait)action, actionProp);
+                    DrawActionWait((ActionWaitData)action, actionProp);
                     break;
                 }
             case ActionType.Show:
                 {
-                    DrawActionShow((ActionShow)action, actionProp);
+                    DrawActionShow((ActionShowData)action, actionProp);
                     break;
                 }
             case ActionType.Hide:
                 {
-                    DrawActionHide((ActionHide)action, actionProp);
+                    DrawActionHide((ActionHideData)action, actionProp);
                     break;
                 }
             case ActionType.ShowDialogue:
                 {
-                    DrawActionShowDialogue((ActionShowDialogue)action, actionProp);
+                    DrawActionShowDialogue((ActionShowDialogueData)action, actionProp);
                     break;
                 }
             case ActionType.EndSequence:
                 {
-                    DrawActionEndSequence((ActionEndSequence)action, actionProp);
+                    DrawActionEndSequence((ActionEndSequenceData)action, actionProp);
                     break;
                 }
             case ActionType.LoadSequence:
                 {
-                    DrawActionLoadSequence((ActionLoadSequence)action, actionProp);
+                    DrawActionLoadSequence((ActionLoadSequenceData)action, actionProp);
                     break;
                 }
         }
@@ -182,7 +182,7 @@ public class SequenceCustomEditor : Editor
 
     }
 
-    void DrawActionWait(ActionWait action, SerializedProperty prop)
+    void DrawActionWait(ActionWaitData action, SerializedProperty prop)
     {
 
         var seconds = prop.FindPropertyRelative(nameof(action.time));
@@ -191,7 +191,7 @@ public class SequenceCustomEditor : Editor
         
     }
 
-    void DrawActionShow(ActionShow action, SerializedProperty prop)
+    void DrawActionShow(ActionShowData action, SerializedProperty prop)
     {
         var address = prop.FindPropertyRelative(nameof(action.objectAddress));
         var position = prop.FindPropertyRelative(nameof(action.position));
@@ -210,8 +210,11 @@ public class SequenceCustomEditor : Editor
             position.vector2Value = EditorGUILayout.Vector2Field("Position", position.vector2Value);
         if(layerField != null)
             layerField.intValue = (int)(SortingLayerField) EditorGUILayout.EnumPopup("Layer", (SortingLayerField)layerField.intValue);
-        if(layer != null)
-            layer.stringValue = "" + layer.stringValue;
+        if (layer != null)
+        {
+            SortingLayerField name = (SortingLayerField)layerField.intValue;
+            layer.stringValue = "" + name;
+        }
         if(orderInLayer != null)
             orderInLayer.intValue = EditorGUILayout.IntField("Order In Layer", orderInLayer.intValue);
         if (transition != null)
@@ -236,7 +239,7 @@ public class SequenceCustomEditor : Editor
         return 0;
     }
 
-    void DrawActionHide(ActionHide action, SerializedProperty prop)
+    void DrawActionHide(ActionHideData action, SerializedProperty prop)
     {
         var address = prop.FindPropertyRelative(nameof(action.objectAddress));
         var transition = prop.FindPropertyRelative(nameof(action.transition));
@@ -259,7 +262,7 @@ public class SequenceCustomEditor : Editor
 
     }
 
-    void DrawActionShowDialogue(ActionShowDialogue action, SerializedProperty prop)
+    void DrawActionShowDialogue(ActionShowDialogueData action, SerializedProperty prop)
     {
         var address = prop.FindPropertyRelative(nameof(action.dialogue));
         if (address != null)
@@ -270,12 +273,12 @@ public class SequenceCustomEditor : Editor
         }
     }
 
-    void DrawActionEndSequence(ActionEndSequence action, SerializedProperty prop)
+    void DrawActionEndSequence(ActionEndSequenceData action, SerializedProperty prop)
     {
 
     }
 
-    void DrawActionLoadSequence(ActionLoadSequence action, SerializedProperty prop)
+    void DrawActionLoadSequence(ActionLoadSequenceData action, SerializedProperty prop)
     {
         var address = prop.FindPropertyRelative(nameof(action.nextSequence));
         if (address != null)
@@ -286,19 +289,19 @@ public class SequenceCustomEditor : Editor
         }
     }
 
-    ActionType GetType(Action action)
+    ActionType GetType(ActionData action)
     {
-        if (action is ActionWait)
+        if (action is ActionWaitData)
             return ActionType.Wait;
-        if (action is ActionShow)
+        if (action is ActionShowData)
             return ActionType.Show;
-        if (action is ActionHide)
+        if (action is ActionHideData)
             return ActionType.Hide;
-        if (action is ActionShowDialogue)
+        if (action is ActionShowDialogueData)
             return ActionType.ShowDialogue; 
-        if (action is ActionEndSequence)
+        if (action is ActionEndSequenceData)
             return ActionType.EndSequence; 
-        if (action is ActionLoadSequence)
+        if (action is ActionLoadSequenceData)
             return ActionType.LoadSequence;
         return ActionType.None;
 
