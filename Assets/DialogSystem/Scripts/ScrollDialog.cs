@@ -89,7 +89,7 @@ public class ScrollDialog : MonoBehaviour
 
     public void Roll()
     {
-        StartCoroutine(Scroll(true, Hide));
+        //StartCoroutine(Scroll(true, Hide));
         StartCoroutine(StretchScrollArea(true));
     }
 
@@ -113,8 +113,8 @@ public class ScrollDialog : MonoBehaviour
             OnUnscrolled();
         }
         
-        if(callback != null)
-            callback();
+        // if(callback != null)
+        //     callback();
 
         yield return null;
     }
