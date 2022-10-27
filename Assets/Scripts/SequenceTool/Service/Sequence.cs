@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Sequence
 {
-
+    public bool Finished { get; private set; } = false;
+    public IEnumerator Task { get; private set; }
     List<Action> actionList;
+    Dictionary<string, GameObject> InstantiatedGO = new();
     public Sequence(SequenceData sequence) 
     {
         actionList = new List<Action>();
@@ -28,7 +30,8 @@ public class Sequence
                     }
                 case ActionType.Hide:
                     {
-
+                        var action = new ActionHide(actionData.action.GetAction<ActionHideData>());
+                        actionList.Add(action);
                         break;
                     }
                 case ActionType.ShowDialogue:
@@ -38,16 +41,19 @@ public class Sequence
                     }
                 case ActionType.EndSequence:
                     {
-
+                        var action = new ActionEndSequence(actionData.action.GetAction<ActionEndSequenceData>());
+                        actionList.Add(action);
                         break;
                     }
                 case ActionType.LoadSequence:
                     {
-
+                        var action = new ActionLoadSequence(actionData.action.GetAction<ActionLoadSequenceData>());
+                        actionList.Add(action);
                         break;
                     }
             }
         }
+        Task = Execute();
     }
 
     public IEnumerator Execute()
@@ -55,7 +61,7 @@ public class Sequence
         List<Task> tasks = new List<Task>();
         foreach(var action in actionList)
         {
-            tasks.Add(action.Execute());
+            tasks.Add(action.Execute(this));
             while (!action.IsDone)
                 yield return null;
         }
@@ -67,5 +73,36 @@ public class Sequence
                 yield return null;
         }
         tasks.Clear();
+    }
+
+    public void AddGameObject(string address, GameObject obj)
+    {
+        InstantiatedGO.Add(address, obj);
+    }
+
+    public void RemoveGameObject(string address)
+    {
+        if(InstantiatedGO.ContainsKey(address))
+        {
+            GameObject.Destroy(InstantiatedGO[address]);
+            InstantiatedGO.Remove(address);
+        }
+    }
+
+    public GameObject GetGameObject(string address)
+    {
+        if (InstantiatedGO.ContainsKey(address))
+            return InstantiatedGO[address];
+        else return null;
+    }
+
+    public void EndSequence()
+    {
+        foreach(var go in InstantiatedGO.Values)
+        {
+            GameObject.Destroy(go);
+        }
+        InstantiatedGO.Clear();
+        Finished = true;
     }
 }

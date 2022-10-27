@@ -8,6 +8,7 @@ public static class GameObjectFactory
 {
     private static readonly Dictionary<string, GameObject> _loadedPrefabs = new();
     private static readonly Dictionary<string, Sprite> _loadedSprites = new();
+    private static readonly Dictionary<string, SequenceData> _loadedSequences = new();
 
     public static async Task<GameObject> InstantiateGameObject(string prefabName, Vector3 position = default, Quaternion rotation = default, GameObject parent = null, bool enableOnSpawn = true)
     {
@@ -23,6 +24,7 @@ public static class GameObjectFactory
 
 
         var gameObject = GameObject.Instantiate(go, position, rotation);
+        gameObject.name = prefabName;
         gameObject.SetActive(enableOnSpawn);
 
         if(parent)
@@ -46,6 +48,7 @@ public static class GameObjectFactory
 
 
         var gameObject = new GameObject();
+        gameObject.name = prefabName;
         gameObject.AddComponent<SpriteRenderer>().sprite = go;
 
         gameObject.SetActive(enableOnSpawn);
@@ -53,5 +56,21 @@ public static class GameObjectFactory
         if (parent)
             gameObject.transform.SetParent(parent.transform);
         return gameObject;
+    }
+
+    public static async Task<SequenceData> LoadSequence(string sequenceAddress)
+    {
+        if (_loadedSequences.TryGetValue(sequenceAddress, out var sequence) == false)
+        {
+            var load = Addressables.LoadAssetAsync<SequenceData>(sequenceAddress);
+            await load.Task;
+
+            sequence = load.Result;
+
+            _loadedSequences.Add(sequenceAddress, sequence);
+        }
+
+        return sequence;
+
     }
 }

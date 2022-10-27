@@ -10,6 +10,8 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEditor.UIElements;
 using UnityEngine.AddressableAssets;
 using UnityEditor.AddressableAssets;
+using System.Linq;
+using static Codice.CM.Common.CmCallContext;
 
 [CustomEditor(typeof(SequenceData))]
 public class SequenceCustomEditor : Editor
@@ -58,7 +60,7 @@ public class SequenceCustomEditor : Editor
             var action = sequence.actions[i];
 
             var prop = serialized.FindProperty("actions").GetArrayElementAtIndex(i);
-            DrawAction(action, prop, i);
+            DrawAction(action, prop, sequence, i);
         }
         /**/
         serialized.ApplyModifiedProperties();
@@ -123,7 +125,7 @@ public class SequenceCustomEditor : Editor
         }
     }
 
-    void DrawAction(ActionContainer actionContainer, SerializedProperty prop, int index)
+    void DrawAction(ActionContainer actionContainer, SerializedProperty prop, SequenceData sequence, int index)
     {
         EditorGUILayout.BeginVertical();
         EditorGUILayout.BeginVertical("Box");
@@ -146,12 +148,13 @@ public class SequenceCustomEditor : Editor
                 }
             case ActionType.Show:
                 {
-                    DrawActionShow((ActionShowData)action, actionProp);
+                    
+                    DrawActionShow((ActionShowData)action, actionProp, sequence);
                     break;
                 }
             case ActionType.Hide:
                 {
-                    DrawActionHide((ActionHideData)action, actionProp);
+                    DrawActionHide((ActionHideData)action, actionProp, sequence);
                     break;
                 }
             case ActionType.ShowDialogue:
@@ -191,9 +194,11 @@ public class SequenceCustomEditor : Editor
         
     }
 
-    void DrawActionShow(ActionShowData action, SerializedProperty prop)
+    void DrawActionShow(ActionShowData action, SerializedProperty prop, SequenceData sequence)
     {
         var address = prop.FindPropertyRelative(nameof(action.objectAddress));
+        var objectCopyIndex = prop.FindPropertyRelative(nameof(action.objectCopyIndex));
+        var prefabType = prop.FindPropertyRelative(nameof(action.PrefabType));
         var position = prop.FindPropertyRelative(nameof(action.position));
         var layerField = prop.FindPropertyRelative(nameof(action.layerField));
         var layer = prop.FindPropertyRelative(nameof(action.layer));
@@ -202,11 +207,18 @@ public class SequenceCustomEditor : Editor
 
         if (address != null)
         {
-            int index = GetIndex<string>(address.stringValue, assetsNames);
-            index = EditorGUILayout.Popup("Object", index, assetsNames);
-            address.stringValue = assetsNames[index];
+            int objindex = GetIndex<string>(address.stringValue, assetsNames);
+            objindex = EditorGUILayout.Popup("Object", objindex, assetsNames);
+            address.stringValue = assetsNames[objindex];
         }
-        if(position != null)
+        if (objectCopyIndex != null)
+        {
+            objectCopyIndex.intValue = GetCopyIndex(action, sequence);
+            EditorGUILayout.IntField("Copy index: ", objectCopyIndex.intValue);
+        }
+        if (prefabType != null)
+            prefabType.intValue = (int)(PrefabType)EditorGUILayout.EnumPopup("PrefabType", (PrefabType)prefabType.intValue);
+        if (position != null)
             position.vector2Value = EditorGUILayout.Vector2Field("Position", position.vector2Value);
         if(layerField != null)
             layerField.intValue = (int)(SortingLayerField) EditorGUILayout.EnumPopup("Layer", (SortingLayerField)layerField.intValue);
@@ -226,7 +238,7 @@ public class SequenceCustomEditor : Editor
                 time.floatValue = EditorGUILayout.FloatField("Seconds", time.floatValue);
             }
         }
-
+        
     }
 
     int GetIndex<T>(T asset, T[] array)
@@ -239,9 +251,10 @@ public class SequenceCustomEditor : Editor
         return 0;
     }
 
-    void DrawActionHide(ActionHideData action, SerializedProperty prop)
+    void DrawActionHide(ActionHideData action, SerializedProperty prop, SequenceData sequence)
     {
         var address = prop.FindPropertyRelative(nameof(action.objectAddress));
+        var objectCopyIndex = prop.FindPropertyRelative(nameof(action.objectCopyIndex));
         var transition = prop.FindPropertyRelative(nameof(action.transition));
 
         if (address != null)
@@ -249,6 +262,11 @@ public class SequenceCustomEditor : Editor
             int index = GetIndex<string>(address.stringValue, assetsNames);
             index = EditorGUILayout.Popup("Object", index, assetsNames);
             address.stringValue = assetsNames[index];
+        }
+        if(objectCopyIndex != null)
+        {
+            var count = GetCopyCount(action, sequence);
+            objectCopyIndex.intValue = EditorGUILayout.Popup("Copy index: ", Mathf.Min(objectCopyIndex.intValue, count-1), CopyCountArray(count));
         }
         if (transition != null)
         {
@@ -288,6 +306,68 @@ public class SequenceCustomEditor : Editor
             address.stringValue = sequenceNames[index];
         }
     }
+
+    int GetCopyIndex(ActionShowData action, SequenceData sequence)
+    {
+        int idx = 0;
+
+        for(int i=0; i< sequence.actions.Length; i++)
+        {
+            var actionContainer = sequence.actions[i];
+
+            if(actionContainer.action.type == ActionType.Show)
+            {
+                ActionShowData current = (ActionShowData)actionContainer.action;
+                if (current == action)
+                    return idx;
+                else if (current.objectAddress.Equals(action.objectAddress))
+                    idx++;
+            }
+
+        }
+
+
+        return idx;
+    }
+
+    int GetCopyCount(ActionHideData action, SequenceData sequence)
+    {
+        int idx = 0;
+        for (int i = 0; i < sequence.actions.Length; i++)
+        {
+            var actionContainer = sequence.actions[i];
+
+            if (actionContainer.action.type == ActionType.Show)
+            {
+                ActionShowData current = (ActionShowData)actionContainer.action;
+               
+                if (current.objectAddress.Equals(action.objectAddress))
+                    idx++;
+            }
+            if (actionContainer.action.type == ActionType.Hide)
+            {
+                ActionHideData current = (ActionHideData)actionContainer.action;
+
+                if (current == action)
+                    return idx;
+            }
+
+
+        }
+
+        return idx;
+    }
+
+    string[] CopyCountArray(int count)
+    {
+        string[] array = new string[count];
+        for(int i=0; i<count; i++)
+        {
+            array[i] = "Copy (" + i + ")";
+        }
+        return array;
+    }
+
 
     ActionType GetType(ActionData action)
     {

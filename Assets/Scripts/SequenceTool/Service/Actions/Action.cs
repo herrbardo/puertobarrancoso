@@ -12,7 +12,7 @@ public abstract class Action
     }
     public bool IsDone { get; set; }
     public bool Completed { get; set; }
-    public abstract Task Execute();
+    public abstract Task Execute(Sequence seq);
 
     
 

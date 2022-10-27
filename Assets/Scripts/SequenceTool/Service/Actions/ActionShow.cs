@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ActionShow : Action
 {
-    SpriteRenderer spriteRenderer;
     ActionShowData data;
     public ActionShow(ActionShowData data) : base(data)
     {
@@ -16,12 +15,21 @@ public class ActionShow : Action
 
     
 
-    public override async Task Execute()
+    public override async Task Execute(Sequence seq)
     {
         IsDone = Completed = false;
         Vector3 pos = new Vector3(data.position.x, data.position.y, 0);
-        var go = await GameObjectFactory.InstantiateSpriteRenderer(data.objectAddress, pos, Quaternion.identity, null, false);
-        spriteRenderer = go.GetComponent<SpriteRenderer>();
+        GameObject go = null;
+        if(data.PrefabType == PrefabType.Sprite)
+            go = await GameObjectFactory.InstantiateSpriteRenderer(data.objectAddress, pos, Quaternion.identity, null, false);
+        else
+            go = await GameObjectFactory.InstantiateGameObject(data.objectAddress, pos, Quaternion.identity, null, false);
+        
+        if (!go) return;
+        go.name = data.ObjectAddress;
+        seq.AddGameObject(data.ObjectAddress, go);
+
+        SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
         {
             spriteRenderer.sortingLayerName = data.layer;
             spriteRenderer.sortingOrder = data.orderInLayer;
@@ -31,6 +39,7 @@ public class ActionShow : Action
         {
             float t = 0;
             Color color = spriteRenderer.color;
+            float a = color.a;
             color.a = 0;
             spriteRenderer.color = color;
             spriteRenderer.gameObject.SetActive(true);
@@ -40,7 +49,8 @@ public class ActionShow : Action
                 spriteRenderer.color = color;
                 await Task.Delay(10);
                 t += 0.01f;
-                color.a = Mathf.Lerp(0, 1, t * invTime);
+                color = spriteRenderer.color;
+                color.a = Mathf.Lerp(0, a, t * invTime);
 
             }
         }

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ActionWait : Action
+public class ActionLoadSequence : Action
 {
-    ActionWaitData data;
-    public ActionWait(ActionWaitData data) : base(data)
+    ActionLoadSequenceData data;
+    public ActionLoadSequence(ActionLoadSequenceData data) : base(data)
     {
         this.data = data;
-        IsDone = false;
     }
 
     public override async Task Execute(Sequence seq)
     {
         IsDone = Completed = false;
-        await Task.Delay((int)(1000 * data.time));
+        var sequence = await GameObjectFactory.LoadSequence(data.nextSequence);
+        SequenceManager.Instance.AddSequence(sequence);
         IsDone = Completed = true;
     }
 }

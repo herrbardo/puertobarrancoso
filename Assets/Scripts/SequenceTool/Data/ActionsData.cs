@@ -28,6 +28,12 @@ public enum SortingLayerField
 
 }
 
+public enum PrefabType
+{
+    Gameobject,
+    Sprite
+}
+
 [System.Serializable]
 public abstract class ActionData
 {
@@ -52,12 +58,15 @@ public class ActionShowData : ActionData
 {
     public ActionShowData() { type = ActionType.Show; }
     public string objectAddress;
+    public int objectCopyIndex;
+    public PrefabType PrefabType;
     public Vector2 position;
     public SortingLayerField layerField;
     public string layer;
     public int orderInLayer;
     public Transition transition;
     public float time;
+    public string ObjectAddress => objectAddress + objectCopyIndex;
 }
 
 [System.Serializable]
@@ -65,8 +74,12 @@ public class ActionHideData : ActionData
 {
     public ActionHideData() { type = ActionType.Hide; }
     public string objectAddress;
+    public int objectCopyIndex = 0;
     public Transition transition;
     public float time;
+
+    public string ObjectAddress => objectAddress + objectCopyIndex;
+
 }
 [System.Serializable]
 public class ActionShowDialogueData : ActionData

@@ -21,7 +21,7 @@ public class SequenceManager: MonoBehaviour
         _instance = this;
     }
 
-    public List<IEnumerator> tasks = new List<IEnumerator>();
+    public List<Sequence> currentSequences = new List<Sequence>();
 
     protected List<Sequence> sequences = new List<Sequence>();
 
@@ -34,18 +34,18 @@ public class SequenceManager: MonoBehaviour
     {
         foreach(var sequence in sequences)
         {
-            var task = sequence.Execute();
-            tasks.Add(task);
+            currentSequences.Add(sequence);
         }
-        sequences.Clear();
+        if(sequences.Count > 0)
+            sequences.Clear();
 
         int i = 0;
-        while(i<tasks.Count)
+        while(i < currentSequences.Count)
         {
-            var task = tasks[i];
-            if (!task.MoveNext())
+            var sequence = currentSequences[i];
+            if (!sequence.Task.MoveNext() || sequence.Finished)
             {
-                tasks.Remove(task);
+                currentSequences.Remove(sequence);
             }
             else i++;
 
