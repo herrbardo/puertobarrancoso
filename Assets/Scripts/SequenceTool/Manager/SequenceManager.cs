@@ -52,6 +52,13 @@ public class SequenceManager: MonoBehaviour
         }
     }
 
+    public void Continue()
+    {
+        foreach(var sequence in currentSequences)
+        {
+            sequence.Continue();
+        }
+    }
 
 
 }

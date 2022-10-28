@@ -9,6 +9,8 @@ public class Sequence
     public IEnumerator Task { get; private set; }
     List<Action> actionList;
     Dictionary<string, GameObject> InstantiatedGO = new();
+
+    Action currentAction;
     public Sequence(SequenceData sequence) 
     {
         actionList = new List<Action>();
@@ -36,7 +38,8 @@ public class Sequence
                     }
                 case ActionType.ShowDialogue:
                     {
-
+                        var action = new ActionShowDialogue(actionData.action.GetAction<ActionShowDialogueData>());
+                        actionList.Add(action);
                         break;
                     }
                 case ActionType.EndSequence:
@@ -51,6 +54,12 @@ public class Sequence
                         actionList.Add(action);
                         break;
                     }
+                case ActionType.Pause:
+                    {
+                        var action = new ActionPause(actionData.action.GetAction<ActionPauseData>());
+                        actionList.Add(action);
+                        break;
+                    }
             }
         }
         Task = Execute();
@@ -62,6 +71,7 @@ public class Sequence
         foreach(var action in actionList)
         {
             tasks.Add(action.Execute(this));
+            currentAction = action;
             while (!action.IsDone)
                 yield return null;
         }
@@ -104,5 +114,10 @@ public class Sequence
         }
         InstantiatedGO.Clear();
         Finished = true;
+    }
+
+    public void Continue()
+    { 
+        currentAction.Continue();
     }
 }

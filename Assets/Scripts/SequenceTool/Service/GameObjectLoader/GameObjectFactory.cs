@@ -1,3 +1,5 @@
+using PixelCrushers.DialogueSystem.Wrappers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +11,7 @@ public static class GameObjectFactory
     private static readonly Dictionary<string, GameObject> _loadedPrefabs = new();
     private static readonly Dictionary<string, Sprite> _loadedSprites = new();
     private static readonly Dictionary<string, SequenceData> _loadedSequences = new();
+    private static readonly Dictionary<string, DialogueDatabase> _loadedDialogues = new();
 
     public static async Task<GameObject> InstantiateGameObject(string prefabName, Vector3 position = default, Quaternion rotation = default, GameObject parent = null, bool enableOnSpawn = true)
     {
@@ -72,5 +75,20 @@ public static class GameObjectFactory
 
         return sequence;
 
+    }
+
+    public static async Task<DialogueDatabase> LoadDialogue(string dialogueAddress)
+    {
+        if (_loadedDialogues.TryGetValue(dialogueAddress, out var dialogue) == false)
+        {
+            var load = Addressables.LoadAssetAsync<DialogueDatabase>(dialogueAddress);
+            await load.Task;
+
+            dialogue = load.Result;
+
+            _loadedDialogues.Add(dialogueAddress, dialogue);
+        }
+
+        return dialogue;
     }
 }

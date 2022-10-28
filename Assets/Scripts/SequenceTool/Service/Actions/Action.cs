@@ -14,7 +14,9 @@ public abstract class Action
     public bool Completed { get; set; }
     public abstract Task Execute(Sequence seq);
 
-    
+    public virtual void Continue()
+    {
+    }
 
 
 }

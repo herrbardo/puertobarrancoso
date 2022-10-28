@@ -15,4 +15,9 @@ public class SequenceManagerTest : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        
+    }
+
 }

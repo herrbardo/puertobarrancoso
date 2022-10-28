@@ -15,4 +15,14 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
         }
         
     }
+
+    public class SequencerCommandContinue : SequencerCommand
+    {
+        void Start()
+        {
+
+            SequenceManager.Instance.Continue();
+            Stop();
+        }
+    }
 }

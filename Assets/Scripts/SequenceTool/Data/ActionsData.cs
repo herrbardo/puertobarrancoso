@@ -15,6 +15,7 @@ public enum ActionType
     ShowDialogue = 4,
     EndSequence = 5,
     LoadSequence = 6,
+    Pause = 7,
 }
 
 public enum SortingLayerField
@@ -99,4 +100,11 @@ public class ActionLoadSequenceData : ActionData
     public ActionLoadSequenceData() { type = ActionType.LoadSequence; }
 
     public string nextSequence;
+}
+[System.Serializable]
+
+public class ActionPauseData : ActionData
+{
+    public ActionPauseData() { type = ActionType.Pause; }
+
 }

@@ -12,6 +12,7 @@ using UnityEngine.AddressableAssets;
 using UnityEditor.AddressableAssets;
 using System.Linq;
 using static Codice.CM.Common.CmCallContext;
+using PixelCrushers.DialogueSystem;
 
 [CustomEditor(typeof(SequenceData))]
 public class SequenceCustomEditor : Editor
@@ -19,6 +20,9 @@ public class SequenceCustomEditor : Editor
     SerializedObject serialized;
 
     string[] assetsNames;
+    string[] spriteNames;
+    string[] prefabNames;
+
     string[] dialogueNames;
     string[] sequenceNames;
     public override void OnInspectorGUI()
@@ -29,9 +33,47 @@ public class SequenceCustomEditor : Editor
         //if(serialized == null)
         serialized = new SerializedObject(sequence);
 
-        assetsNames = SetAddressableEntries("Prefabs");
-        dialogueNames = SetAddressableEntries("Dialogues");
-        sequenceNames = SetAddressableEntries("Sequences");
+        prefabNames = GetAddressableEntries("Prefabs");
+        spriteNames = GetAddressableEntries("Sprites");
+
+        List<string> assets = new List<string>();
+        foreach (string asset in prefabNames)
+        {
+            assets.Add(asset);
+        }
+
+        foreach (string asset in spriteNames)
+        {
+            assets.Add(asset);
+        }
+
+        assetsNames = assets.ToArray();
+
+        {
+            var setting = AddressableAssetSettingsDefaultObject.Settings;
+            var group = setting.FindGroup("Dialogues");
+            var dialoguePathList = new List<string>();
+
+            foreach (var entry in group.entries)
+            {
+                dialoguePathList.Add(entry.AssetPath);
+            }
+            List<string> dialogues = new List<string>();
+            foreach(var dialoguePath in dialoguePathList)
+            {
+                var d = AssetDatabase.LoadAssetAtPath<DialogueDatabase>(dialoguePath);
+                foreach (var conversation in d.conversations)
+                {
+                    dialogues.Add(conversation.Title);
+                }
+
+                
+            }
+            dialogueNames = dialogues.ToArray();
+        }
+        //var dialogues = GetAddressableEntries("Dialogues");
+        
+        sequenceNames = GetAddressableEntries("Sequences");
 
         var actionsProp = serialized.FindProperty("actions");
 
@@ -67,7 +109,7 @@ public class SequenceCustomEditor : Editor
 
     }
 
-    public string[] SetAddressableEntries(string key)
+    public string[] GetAddressableEntries(string key)
     {
         var setting = AddressableAssetSettingsDefaultObject.Settings;
         var group = setting.FindGroup(key);
@@ -120,6 +162,10 @@ public class SequenceCustomEditor : Editor
             case ActionType.LoadSequence:
                 {
                     return ValidateType<ActionLoadSequenceData>(prop);
+                }
+            case ActionType.Pause:
+                {
+                    return ValidateType<ActionPauseData>(prop);
                 }
             default: return ValidateType<ActionWaitData>(prop);
         }
@@ -205,19 +251,25 @@ public class SequenceCustomEditor : Editor
         var orderInLayer = prop.FindPropertyRelative(nameof(action.orderInLayer));
         var transition = prop.FindPropertyRelative(nameof(action.transition));
 
+        if (prefabType != null)
+            prefabType.intValue = (int)(PrefabType)EditorGUILayout.EnumPopup("PrefabType", (PrefabType)prefabType.intValue);
+
+        string[] assets;
+        if (prefabType.intValue == (int)PrefabType.Gameobject)
+            assets = prefabNames;
+        else
+            assets = spriteNames;
         if (address != null)
         {
-            int objindex = GetIndex<string>(address.stringValue, assetsNames);
-            objindex = EditorGUILayout.Popup("Object", objindex, assetsNames);
-            address.stringValue = assetsNames[objindex];
+            int objindex = GetIndex<string>(address.stringValue, assets);
+            objindex = EditorGUILayout.Popup("Object", objindex, assets);
+            address.stringValue = assets[objindex];
         }
         if (objectCopyIndex != null)
         {
             objectCopyIndex.intValue = GetCopyIndex(action, sequence);
             EditorGUILayout.IntField("Copy index: ", objectCopyIndex.intValue);
         }
-        if (prefabType != null)
-            prefabType.intValue = (int)(PrefabType)EditorGUILayout.EnumPopup("PrefabType", (PrefabType)prefabType.intValue);
         if (position != null)
             position.vector2Value = EditorGUILayout.Vector2Field("Position", position.vector2Value);
         if(layerField != null)
@@ -383,6 +435,8 @@ public class SequenceCustomEditor : Editor
             return ActionType.EndSequence; 
         if (action is ActionLoadSequenceData)
             return ActionType.LoadSequence;
+        if(action is ActionPauseData)
+            return ActionType.Pause;
         return ActionType.None;
 
     }
