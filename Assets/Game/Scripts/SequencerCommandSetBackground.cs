@@ -16,8 +16,9 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
         
     }
 
-    public class SequencerCommandContinue : SequencerCommand
+    public class SequencerCommandContinueSequence : SequencerCommand
     {
+
         void Start()
         {
 
