@@ -218,6 +218,11 @@ public class SequenceCustomEditor : Editor
                     DrawActionLoadSequence((ActionLoadSequenceData)action, actionProp);
                     break;
                 }
+            case ActionType.Pause:
+                {
+                    DrawPause(action, sequence);
+                    break;
+                }
         }
         //var wait = actionProp.FindPropertyRelative(nameof(action.WaitForNext));
         //if(wait != null)
@@ -228,6 +233,24 @@ public class SequenceCustomEditor : Editor
 
         EditorGUILayout.LabelField("------------------------------------");
         EditorGUILayout.EndVertical();
+
+    }
+
+    private void DrawPause(ActionData action, SequenceData sequence)
+    {
+        int i = 0;
+        foreach(var a in sequence.actions)
+        {
+            if(a.action.type == ActionType.Pause)
+            {
+                i++;
+            }
+            if(a.action == action)
+            {
+                break;
+            }
+        }
+        EditorGUILayout.LabelField("Number: " + i);
 
     }
 
