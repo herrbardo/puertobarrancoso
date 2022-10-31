@@ -28,6 +28,8 @@ public static class GameObjectFactory
 
         var gameObject = GameObject.Instantiate(go, position, rotation);
         gameObject.name = prefabName;
+        gameObject.transform.position = position;
+
         gameObject.SetActive(enableOnSpawn);
 
         if(parent)
@@ -53,7 +55,7 @@ public static class GameObjectFactory
         var gameObject = new GameObject();
         gameObject.name = prefabName;
         gameObject.AddComponent<SpriteRenderer>().sprite = go;
-
+        gameObject.transform.position = position;
         gameObject.SetActive(enableOnSpawn);
 
         if (parent)
