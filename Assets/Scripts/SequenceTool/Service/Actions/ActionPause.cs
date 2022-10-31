@@ -21,8 +21,9 @@ public class ActionPause : Action
 
     }
 
-    public override void Continue()
+    public override bool Continue()
     {
         pause = false;
+        return true;
     }
 }

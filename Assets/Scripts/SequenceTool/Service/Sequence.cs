@@ -11,6 +11,11 @@ public class Sequence
     Dictionary<string, GameObject> InstantiatedGO = new();
 
     Action currentAction;
+
+    Queue<bool> continueQueue = new();
+
+    public int ActionIndex { get; private set; }    
+
     public Sequence(SequenceData sequence) 
     {
         actionList = new List<Action>();
@@ -65,6 +70,8 @@ public class Sequence
         Task = Execute();
     }
 
+    
+
     public IEnumerator Execute()
     {
         List<Task> tasks = new List<Task>();
@@ -72,15 +79,28 @@ public class Sequence
         {
             tasks.Add(action.Execute(this));
             currentAction = action;
+            ActionIndex++;
             while (!action.IsDone)
+            {
+                if(continueQueue.Count > 0)
+                {
+                    if (currentAction.Continue())
+                    {
+                        continueQueue.Dequeue();
+                    }
+                }
+                
                 yield return null;
+            }
         }
 
         //wait for all actions completition
         foreach (var action in actionList)
         {
             while (!action.Completed)
+            {
                 yield return null;
+            }
         }
         tasks.Clear();
     }
@@ -117,7 +137,8 @@ public class Sequence
     }
 
     public void Continue()
-    { 
-        currentAction.Continue();
+    {
+        continueQueue.Enqueue(true);
+        
     }
 }
