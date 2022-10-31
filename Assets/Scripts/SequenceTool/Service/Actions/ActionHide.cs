@@ -23,7 +23,7 @@ public class ActionHide : Action
         SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
         
         IsDone = true;
-        if (data.transition == Transition.FadeOut)
+        if (data.transition == TransitionOut.FadeOut)
         {
             float t = 0;
             Color color = spriteRenderer.color;

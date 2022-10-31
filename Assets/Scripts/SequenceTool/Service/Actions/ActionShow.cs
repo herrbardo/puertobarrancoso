@@ -35,7 +35,7 @@ public class ActionShow : Action
             spriteRenderer.sortingOrder = data.orderInLayer;
         }
         IsDone = true;
-        if(data.transition == Transition.FadeIn)
+        if(data.transition == TransitionIn.FadeIn)
         {
             float t = 0;
             Color color = spriteRenderer.color;

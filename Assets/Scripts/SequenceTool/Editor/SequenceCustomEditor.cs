@@ -283,8 +283,8 @@ public class SequenceCustomEditor : Editor
             orderInLayer.intValue = EditorGUILayout.IntField("Order In Layer", orderInLayer.intValue);
         if (transition != null)
         {
-            transition.intValue = (int)(Transition)EditorGUILayout.EnumPopup("Transition", (Transition)transition.intValue);
-            if(transition.intValue != (int)Transition.None)
+            transition.intValue = (int)(TransitionIn)EditorGUILayout.EnumPopup("Transition", (TransitionIn)transition.intValue);
+            if(transition.intValue != (int)TransitionIn.None)
             {
                 var time = prop.FindPropertyRelative(nameof(action.time));
                 time.floatValue = EditorGUILayout.FloatField("Seconds", time.floatValue);
@@ -322,8 +322,8 @@ public class SequenceCustomEditor : Editor
         }
         if (transition != null)
         {
-            transition.intValue = (int)(Transition)EditorGUILayout.EnumPopup("Transition", (Transition)transition.intValue);
-            if (transition.intValue != (int)Transition.None)
+            transition.intValue = (int)(TransitionOut)EditorGUILayout.EnumPopup("Transition", (TransitionOut)transition.intValue);
+            if (transition.intValue != (int)TransitionOut.None)
             {
                 var time = prop.FindPropertyRelative(nameof(action.time));
                 time.floatValue = EditorGUILayout.FloatField("Seconds", time.floatValue);

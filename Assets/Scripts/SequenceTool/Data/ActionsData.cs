@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 
-public enum Transition
+public enum TransitionIn
 {
-    None,
-    FadeIn,
-    FadeOut,
+    None = 0,
+    FadeIn = 1,
+}
+
+public enum TransitionOut
+{
+    None = 0,
+    FadeOut = 1,
 }
 public enum ActionType
 {
@@ -65,7 +70,7 @@ public class ActionShowData : ActionData
     public SortingLayerField layerField;
     public string layer;
     public int orderInLayer;
-    public Transition transition;
+    public TransitionIn transition;
     public float time;
     public string ObjectAddress => objectAddress + objectCopyIndex;
 }
@@ -76,7 +81,7 @@ public class ActionHideData : ActionData
     public ActionHideData() { type = ActionType.Hide; }
     public string objectAddress;
     public int objectCopyIndex = 0;
-    public Transition transition;
+    public TransitionOut transition;
     public float time;
 
     public string ObjectAddress => objectAddress + objectCopyIndex;
