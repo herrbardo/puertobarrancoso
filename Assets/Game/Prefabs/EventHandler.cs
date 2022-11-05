@@ -6,6 +6,6 @@ public class EventHandler : MonoBehaviour
 {
     public void HandleEvent()
     {
-        SequenceManager.Instance.Continue();
+        //SequenceManager.Instance.Continue();
     }
 }
