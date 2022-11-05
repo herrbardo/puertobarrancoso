@@ -145,7 +145,7 @@ PrefabInstance:
     - target: {fileID: 4833110038699754189, guid: bf92d33ced08e574085d2d2865cabcbc, type: 3}
       propertyPath: sequences.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 5ad4d38ef011c044dab7eab7a1f138d1, type: 2}
+      objectReference: {fileID: 11400000, guid: 9a5246138f0659641aee7d68cd5a345d, type: 2}
     - target: {fileID: 4833110038699754189, guid: bf92d33ced08e574085d2d2865cabcbc, type: 3}
       propertyPath: sequences.Array.data[1]
       value: 
@@ -1024,7 +1024,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.37
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
