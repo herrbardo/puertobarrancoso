@@ -22,8 +22,9 @@ public enum ActionType
     LoadSequence = 6,
     Pause = 7,
     HideDialogue = 8,
-    PlayEffect = 9,
+    PlaySoundEffect = 9,
     PlayMusic = 10,
+    PlayAnimation = 11,
 }
 
 public enum SortingLayerField
@@ -124,9 +125,9 @@ public class ActionHideDialogueData: ActionData
 }
 
 [System.Serializable]
-public class ActionPlayEffectData : ActionData
+public class ActionPlaySoundEffectData : ActionData
 {
-    public ActionPlayEffectData() { type = ActionType.PlayEffect; }
+    public ActionPlaySoundEffectData() { type = ActionType.PlaySoundEffect; }
 
 }
 
@@ -134,5 +135,12 @@ public class ActionPlayEffectData : ActionData
 public class ActionPlayMusicData : ActionData
 {
     public ActionPlayMusicData() { type = ActionType.PlayMusic; }
+
+}
+
+[System.Serializable]
+public class ActionPlayAnimationData : ActionData
+{
+    public ActionPlayAnimationData() { type = ActionType.PlayAnimation; }
 
 }

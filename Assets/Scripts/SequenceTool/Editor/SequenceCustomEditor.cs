@@ -25,6 +25,9 @@ public class SequenceCustomEditor : Editor
 
     string[] dialogueNames;
     string[] sequenceNames;
+
+    string[] soundEffectNames;
+    string[] musicNames;
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -228,14 +231,19 @@ public class SequenceCustomEditor : Editor
                     DrawHideDialogue(action, sequence);
                     break;
                 }
-            case ActionType.PlayEffect:
+            case ActionType.PlaySoundEffect:
                 {
-                    DrawPlayEffect((ActionPlayEffectData)action, sequence);
+                    DrawPlayEffect((ActionPlaySoundEffectData)action, sequence);
                     break;
                 }
             case ActionType.PlayMusic:
                 {
                     DrawPlayMusic((ActionPlayMusicData)action, sequence);
+                    break;
+                }
+            case ActionType.PlayAnimation:
+                {
+                    DrawPlayAnimation((ActionPlayAnimationData)action, sequence);
                     break;
                 }
         }
@@ -250,6 +258,8 @@ public class SequenceCustomEditor : Editor
         EditorGUILayout.EndVertical();
 
     }
+
+    
 
     private void DrawPause(ActionData action, SequenceData sequence)
     {
@@ -287,7 +297,7 @@ public class SequenceCustomEditor : Editor
 
     }
 
-    private void DrawPlayEffect(ActionPlayEffectData action, SequenceData sequence)
+    private void DrawPlayEffect(ActionPlaySoundEffectData action, SequenceData sequence)
     {
         
 
@@ -296,6 +306,11 @@ public class SequenceCustomEditor : Editor
     private void DrawPlayMusic(ActionPlayMusicData action, SequenceData sequence)
     {
 
+
+    }
+
+    private void DrawPlayAnimation(ActionPlayAnimationData action, SequenceData sequence)
+    {
 
     }
 

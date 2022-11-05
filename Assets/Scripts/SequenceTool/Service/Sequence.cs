@@ -68,6 +68,30 @@ public class Sequence
                         actionList.Add(action);
                         break;
                     }
+                case ActionType.HideDialogue:
+                    {
+                        var action = new ActionHideDialogue(actionData.action.GetAction<ActionHideDialogueData>());
+                        actionList.Add(action);
+                        break;
+                    }
+                case ActionType.PlaySoundEffect:
+                    {
+                        var action = new ActionPause(actionData.action.GetAction<ActionPauseData>());
+                        actionList.Add(action);
+                        break;
+                    }
+                case ActionType.PlayMusic:
+                    {
+                        var action = new ActionPause(actionData.action.GetAction<ActionPauseData>());
+                        actionList.Add(action);
+                        break;
+                    }
+                case ActionType.PlayAnimation:
+                    {
+                        var action = new ActionPause(actionData.action.GetAction<ActionPauseData>());
+                        actionList.Add(action);
+                        break;
+                    }
             }
         }
         Task = Execute();
