@@ -11,7 +11,7 @@ public class SequenceManagerTest : MonoBehaviour
     {
         foreach(var sequence in sequences)
         {
-            sequence.Address = "PlaceholderSequence";
+            //sequence.Address = "PlaceholderSequence";
             SequenceManager.Instance.AddSequence(sequence);
         }
     }
