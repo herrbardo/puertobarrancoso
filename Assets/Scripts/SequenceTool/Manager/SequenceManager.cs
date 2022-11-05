@@ -21,12 +21,14 @@ public class SequenceManager: MonoBehaviour
         _instance = this;
     }
 
-    public List<Sequence> currentSequences = new List<Sequence>();
+    public Dictionary<string, Sequence> currentSequences = new Dictionary<string, Sequence>();
 
     protected List<Sequence> sequences = new List<Sequence>();
+    public List<string> keys = new List<string>();
 
     public void AddSequence(SequenceData seq)
     {
+        Debug.Log("Added sequence " + seq.Address);
         sequences.Add(new Sequence(seq));
     }
 
@@ -34,30 +36,30 @@ public class SequenceManager: MonoBehaviour
     {
         foreach(var sequence in sequences)
         {
-            currentSequences.Add(sequence);
+            currentSequences.Add(sequence.Data.Address, sequence);
+            keys.Add(sequence.Data.Address);
         }
         if(sequences.Count > 0)
             sequences.Clear();
 
         int i = 0;
-        while(i < currentSequences.Count)
+        while(i < keys.Count)
         {
-            var sequence = currentSequences[i];
+            var sequence = currentSequences[keys[i]];
             if (!sequence.Task.MoveNext() || sequence.Finished)
             {
-                currentSequences.Remove(sequence);
+                currentSequences.Remove(keys[i]);
+                keys.Remove(sequence.Data.Address);
             }
             else i++;
 
         }
     }
 
-    public void Continue()
+    public void Continue(string address)
     {
-        foreach(var sequence in currentSequences)
-        {
-            sequence.Continue();
-        }
+        var sequence = currentSequences[address];
+        sequence.Continue();
     }
 
 

@@ -223,6 +223,21 @@ public class SequenceCustomEditor : Editor
                     DrawPause(action, sequence);
                     break;
                 }
+            case ActionType.HideDialogue:
+                {
+                    DrawHideDialogue(action, sequence);
+                    break;
+                }
+            case ActionType.PlayEffect:
+                {
+                    DrawPlayEffect((ActionPlayEffectData)action, sequence);
+                    break;
+                }
+            case ActionType.PlayMusic:
+                {
+                    DrawPlayMusic((ActionPlayMusicData)action, sequence);
+                    break;
+                }
         }
         //var wait = actionProp.FindPropertyRelative(nameof(action.WaitForNext));
         //if(wait != null)
@@ -253,6 +268,37 @@ public class SequenceCustomEditor : Editor
         EditorGUILayout.LabelField("Number: " + i);
 
     }
+
+    private void DrawHideDialogue(ActionData action, SequenceData sequence)
+    {
+        int i = 0;
+        foreach (var a in sequence.actions)
+        {
+            if (a.action.type == ActionType.HideDialogue)
+            {
+                i++;
+            }
+            if (a.action == action)
+            {
+                break;
+            }
+        }
+        EditorGUILayout.LabelField("Number: " + i);
+
+    }
+
+    private void DrawPlayEffect(ActionPlayEffectData action, SequenceData sequence)
+    {
+        
+
+    }
+
+    private void DrawPlayMusic(ActionPlayMusicData action, SequenceData sequence)
+    {
+
+
+    }
+
 
     void DrawActionWait(ActionWaitData action, SerializedProperty prop)
     {
@@ -446,21 +492,6 @@ public class SequenceCustomEditor : Editor
 
     ActionType GetType(ActionData action)
     {
-        if (action is ActionWaitData)
-            return ActionType.Wait;
-        if (action is ActionShowData)
-            return ActionType.Show;
-        if (action is ActionHideData)
-            return ActionType.Hide;
-        if (action is ActionShowDialogueData)
-            return ActionType.ShowDialogue; 
-        if (action is ActionEndSequenceData)
-            return ActionType.EndSequence; 
-        if (action is ActionLoadSequenceData)
-            return ActionType.LoadSequence;
-        if(action is ActionPauseData)
-            return ActionType.Pause;
-        return ActionType.None;
-
+        return action.type;
     }
 }

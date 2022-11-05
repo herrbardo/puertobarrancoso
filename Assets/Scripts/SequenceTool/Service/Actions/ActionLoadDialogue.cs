@@ -13,6 +13,8 @@ public class ActionShowDialogue : Action
 
     public override async Task Execute(Sequence seq)
     {
+        Debug.Log("Action: Show DIALOGUE " + data.dialogue);
+
         IsDone = Completed = false;
 
         //LoadDialogue

@@ -22,8 +22,8 @@ namespace PixelCrushers.DialogueSystem.SequencerCommands
         void Start()
         {
             var arg = GetParameter(0);
-            Debug.Log(arg);
-            SequenceManager.Instance.Continue();
+            Debug.Log("Continue sequence: "+arg);
+            SequenceManager.Instance.Continue(arg);
             Stop();
         }
     }

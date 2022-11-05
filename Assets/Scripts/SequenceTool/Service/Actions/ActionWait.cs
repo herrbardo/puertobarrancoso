@@ -14,6 +14,7 @@ public class ActionWait : Action
 
     public override async Task Execute(Sequence seq)
     {
+        Debug.Log("Action: Wait for " + data.time);
         IsDone = Completed = false;
         await Task.Delay((int)(1000 * data.time));
         IsDone = Completed = true;

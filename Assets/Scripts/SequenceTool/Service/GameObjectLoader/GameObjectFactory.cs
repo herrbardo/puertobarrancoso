@@ -71,7 +71,7 @@ public static class GameObjectFactory
             await load.Task;
 
             sequence = load.Result;
-
+            sequence.Address = sequenceAddress;
             _loadedSequences.Add(sequenceAddress, sequence);
         }
 

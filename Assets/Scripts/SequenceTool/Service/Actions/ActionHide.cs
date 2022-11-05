@@ -13,6 +13,7 @@ public class ActionHide : Action
 
     public override async Task Execute(Sequence seq)
     {
+        Debug.Log("Action: Hide object " + data.objectAddress);
         var go = seq.GetGameObject(data.ObjectAddress);
         if (go == null)
         {

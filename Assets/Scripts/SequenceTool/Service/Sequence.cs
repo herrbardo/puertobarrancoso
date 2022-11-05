@@ -6,6 +6,8 @@ using UnityEngine;
 public class Sequence
 {
     public bool Finished { get; private set; } = false;
+    public SequenceData Data { get; private set; }
+
     public IEnumerator Task { get; private set; }
     List<Action> actionList;
     Dictionary<string, GameObject> InstantiatedGO = new();
@@ -18,6 +20,7 @@ public class Sequence
 
     public Sequence(SequenceData sequence) 
     {
+        Data = sequence;
         actionList = new List<Action>();
         foreach (var actionData in sequence.actions)
         {

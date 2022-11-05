@@ -13,6 +13,8 @@ public class ActionPause : Action
 
     public override async Task Execute(Sequence seq)
     {
+        Debug.Log("Action: Pause for dialogue ");
+
         IsDone = Completed = false;
 
         while (pause)

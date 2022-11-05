@@ -15,6 +15,7 @@ public class ActionLoadSequence : Action
     {
         IsDone = Completed = false;
         var sequence = await GameObjectFactory.LoadSequence(data.nextSequence);
+        
         SequenceManager.Instance.AddSequence(sequence);
         IsDone = Completed = true;
     }

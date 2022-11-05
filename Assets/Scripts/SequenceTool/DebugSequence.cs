@@ -20,7 +20,7 @@ public class DebugSequence : MonoBehaviour
     private void Update()
     {
         if (SequenceManager.Instance.currentSequences.Count > 0)
-            SetText("Action: " + (SequenceManager.Instance.currentSequences[0].ActionIndex - 1));
+            SetText("Action: " + (SequenceManager.Instance.currentSequences[SequenceManager.Instance.keys[0]].ActionIndex - 1));
     }
 
 }

@@ -18,6 +18,9 @@ public class SequenceData : ScriptableObject
 {
     [SerializeField]
     [SerializeReference]
+    public string Address;
+    [SerializeField]
+    [SerializeReference]
     public ActionContainer[] actions;
 
 

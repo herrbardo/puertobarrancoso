@@ -17,6 +17,8 @@ public class ActionShow : Action
 
     public override async Task Execute(Sequence seq)
     {
+        Debug.Log("Action: Show object " + data.objectAddress);
+
         IsDone = Completed = false;
         Vector3 pos = new Vector3(data.position.x, data.position.y, 0);
         GameObject go = null;
