@@ -133,7 +133,11 @@ PrefabInstance:
     - target: {fileID: 8757725637059448425, guid: a142b48c61fa3004e8eac0c26f5d6fb8, type: 3}
       propertyPath: initialDatabase
       value: 
-      objectReference: {fileID: 11400000, guid: 1e5efb2f10d876c4b981ecdae816ce12, type: 2}
+      objectReference: {fileID: 11400000, guid: 7abe0feb8a5773547a45a10d3f2ba5c5, type: 2}
+    - target: {fileID: 8757725637059448425, guid: a142b48c61fa3004e8eac0c26f5d6fb8, type: 3}
+      propertyPath: displaySettings.dialogueUI
+      value: 
+      objectReference: {fileID: 147116, guid: 4b372d6b3e80ce04e99683e81c7de9ca, type: 3}
     - target: {fileID: 8757725637070465485, guid: a142b48c61fa3004e8eac0c26f5d6fb8, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -333,7 +337,7 @@ MonoBehaviour:
   allowBarksDuringConversations: 0
   skipBarkIfNoValidEntries: 0
   cacheBarkLines: 0
-  conversation: Prueba
+  conversation: Estructura Narrativa Tecnica
   conversationConversant: {fileID: 0}
   conversationActor: {fileID: 0}
   startConversationEntryID: -1
@@ -356,7 +360,7 @@ MonoBehaviour:
   useConversationTitlePicker: 1
   useBarkTitlePicker: 1
   useQuestNamePicker: 1
-  selectedDatabase: {fileID: 11400000, guid: 1e5efb2f10d876c4b981ecdae816ce12, type: 2}
+  selectedDatabase: {fileID: 11400000, guid: 7abe0feb8a5773547a45a10d3f2ba5c5, type: 2}
 --- !u!4 &1402903853
 Transform:
   m_ObjectHideFlags: 0

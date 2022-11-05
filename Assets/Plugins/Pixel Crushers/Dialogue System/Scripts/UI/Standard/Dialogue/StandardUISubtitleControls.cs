@@ -52,6 +52,8 @@ namespace PixelCrushers.DialogueSystem
             set { m_defaultPCPanel = value; }
         }
 
+        private string _lastSpeakerShown;
+
         #endregion
 
         #region Public Properties
@@ -422,9 +424,10 @@ namespace PixelCrushers.DialogueSystem
 
                 // Focus the panel and show the subtitle:
                 m_focusedPanel = panel;
-                if (panel.addSpeakerName && !string.IsNullOrEmpty(subtitle.speakerInfo.Name))
+                if (panel.addSpeakerName && !string.IsNullOrEmpty(subtitle.speakerInfo.Name) && _lastSpeakerShown != subtitle.speakerInfo.Name)
                 {
-                    subtitle.formattedText.text = string.Format(panel.addSpeakerNameFormat, new object[] { subtitle.speakerInfo.Name, subtitle.formattedText.text });
+                    _lastSpeakerShown = subtitle.speakerInfo.Name;
+                    subtitle.formattedText.text = string.Format(panel.addSpeakerNameFormat, new object[] { subtitle.speakerInfo.Name.ToUpper(), subtitle.formattedText.text });
                 }
                 if (dialogueActor != null && dialogueActor.standardDialogueUISettings.setSubtitleColor)
                 {

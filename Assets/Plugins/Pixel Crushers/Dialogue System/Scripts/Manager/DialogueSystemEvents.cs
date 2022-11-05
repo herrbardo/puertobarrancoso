@@ -154,6 +154,7 @@ namespace PixelCrushers.DialogueSystem
 
         public void OnConversationLine(Subtitle subtitle)
         {
+            Debug.Log("CHOTA");
             conversationEvents.onConversationLine.Invoke(subtitle);
         }
 

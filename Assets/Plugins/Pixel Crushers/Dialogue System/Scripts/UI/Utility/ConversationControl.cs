@@ -63,6 +63,7 @@ namespace PixelCrushers.DialogueSystem
 
 		public void OnConversationLine(Subtitle subtitle)
 		{
+			Debug.Log("CHOTA");
 			if (skipAll)
 			{
 				subtitle.sequence = "Continue(); " + subtitle.sequence;

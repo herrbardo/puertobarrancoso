@@ -26,6 +26,7 @@ namespace PixelCrushers.DialogueSystem
 
         public void OnConversationLine(Subtitle subtitle)
         {
+            Debug.Log("CHOTA");
             if (subtitle == null | subtitle.formattedText == null | string.IsNullOrEmpty(subtitle.formattedText.text)) return;
             string speakerName = (subtitle.speakerInfo != null && subtitle.speakerInfo.transform != null) ? subtitle.speakerInfo.transform.name : "(null speaker)";
             Debug.Log(string.Format("<color={0}>{1}: {2}</color>", new object[] { GetActorColor(subtitle), speakerName, subtitle.formattedText.text }));
